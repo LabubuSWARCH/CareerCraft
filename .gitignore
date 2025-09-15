@@ -1,0 +1,52 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# TypeScript build output
+dist/
+**/dist/
+
+# Generated TypeScript from proto
+pkg/grpc/src/
+**/pkg/grpc/src
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE / editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Temporary files
+*.tmp
+*.swp
+*.lock
+
+# pnpm store (optional)
+.pnpm-store/
+
+# Mac / Linux / Windows swap / temp
+*.sw?
+*.bak
+
+# Coverage
+coverage/
+**/coverage/
+
+# Buf cache (optional)
+.buf/
