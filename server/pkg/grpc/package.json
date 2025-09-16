@@ -6,7 +6,8 @@
     "generate": "buf generate",
     "build": "tsc",
     "lint": "buf lint",
-    "format": "buf format -w"
+    "format": "buf format -w",
+    "style-check": "buf format -d"
   },
   "keywords": [],
   "author": "",

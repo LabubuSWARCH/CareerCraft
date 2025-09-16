@@ -8,7 +8,9 @@
     "generate": "pnpm -r generate",
     "dev": "pnpm -r --parallel --stream dev",
     "lint": "pnpm -r lint",
-    "format": "pnpm -r format"
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "pnpm -r format",
+    "style-check": "pnpm -r style-check"
   },
   "keywords": [],
   "author": "",
