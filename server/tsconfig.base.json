@@ -9,9 +9,9 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@pkg/*": ["pkg/*/src"]
+      "@pkg/grpc/*": ["pkg/grpc/generated/*"]
     }
   },
-  "include": ["apps/*/src/**/*.ts", "packages/*/src/**/*.ts"],
+  "include": ["apps/*/src/**/*.ts", "pkg/*/src/**/*.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

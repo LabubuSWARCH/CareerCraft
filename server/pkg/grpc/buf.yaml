@@ -1,2 +1,15 @@
-version: v1
-name: buf.build/CareerCraft/grpc
+version: v2
+
+deps:
+  - buf.build/googleapis/googleapis
+
+modules:
+  - path: proto
+
+lint:
+  use:
+    - STANDARD
+
+breaking:
+  use:
+    - PACKAGE

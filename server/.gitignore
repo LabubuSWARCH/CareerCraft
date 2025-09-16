@@ -7,8 +7,8 @@ dist/
 **/dist/
 
 # Generated TypeScript from proto
-pkg/grpc/src/
-**/pkg/grpc/src
+pkg/grpc/generated/
+**/pkg/grpc/generated
 
 # Logs
 npm-debug.log*

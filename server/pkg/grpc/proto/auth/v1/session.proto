@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/protobuf/timestamp.proto";
+
+service SessionService {
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+}
+
+message ValidateRequest {
+  string token = 1;
+}
+
+message ValidateResponse {
+  string id = 1;
+  string username = 2;
+
+  string email = 3;
+  string full_name = 4;
+  string phone = 5;
+  string address = 6;
+  string profile_picture = 7;
+
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
