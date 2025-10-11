@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import templateRoutes from './routes/templates';
 import { FRONTEND_URL, REST_PORT } from '../../config';
 import { connectMongo } from '../db/mongo';
@@ -17,6 +18,7 @@ export async function startRestServer() {
   );
 
   app.use(express.json());
+  app.use(cookieParser());
   app.use('/templates', templateRoutes);
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

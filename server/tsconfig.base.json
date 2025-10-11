@@ -12,6 +12,6 @@
       "@pkg/grpc/*": ["pkg/grpc/generated/*"]
     }
   },
-  "include": ["apps/*/src/**/*.ts", "pkg/*/src/**/*.ts"],
+  "include": ["apps/*/src/**/*.ts", "pkg/*/src/**/*.ts", "pkg/grpc/generated/**/*.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

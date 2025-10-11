@@ -6,6 +6,7 @@ import {
   updateTemplate,
   deleteTemplate,
 } from '../../../service/template';
+import { requireAuth } from '../middleware/auth';
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.get('/:templateId', async (req, res) => {
   res.json(template);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
   const { templateId, name, version, description, author, tags, previewUrl, schemaJson, hintJson } =
     req.body;
 
@@ -54,7 +55,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:templateId', async (req, res) => {
+router.put('/:templateId', requireAuth, async (req, res) => {
   try {
     const template = await updateTemplate(req.params.templateId, req.body);
     if (!template) return res.status(404).json({ error: 'Template not found' });
@@ -66,7 +67,7 @@ router.put('/:templateId', async (req, res) => {
   }
 });
 
-router.delete('/:templateId', async (req, res) => {
+router.delete('/:templateId', requireAuth, async (req, res) => {
   const ok = await deleteTemplate(req.params.templateId);
   if (!ok) return res.status(404).json({ error: 'Template not found' });
   res.status(204).send();
