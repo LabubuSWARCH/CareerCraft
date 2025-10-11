@@ -20,3 +20,15 @@ services:
     ports:
       - "6379:6379"
     restart: always
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
