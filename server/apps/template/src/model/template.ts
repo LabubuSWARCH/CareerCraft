@@ -31,6 +31,4 @@ const templateSchema = new Schema<TemplateDocument>(
   { timestamps: true },
 );
 
-templateSchema.index({ templateId: 1 }, { unique: true });
-
 export const TemplateModel = model<TemplateDocument>('Template', templateSchema);

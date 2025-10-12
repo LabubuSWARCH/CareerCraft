@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { ValidateResponse } from '@pkg/grpc/auth/v1/session';
 import { AuthenticationError, validateSessionToken } from '../../grpc/auth-client';
 
 function extractToken(req: Request): string | undefined {
@@ -13,7 +14,11 @@ function extractToken(req: Request): string | undefined {
   return value;
 }
 
-export async function requireAuth(req: Request, res: Response, next: NextFunction) {
+type AuthedRequest = Request & {
+  user?: ValidateResponse & { token?: string };
+};
+
+export async function requireAuth(req: AuthedRequest, res: Response, next: NextFunction) {
   const token = extractToken(req);
   if (!token) return res.status(401).json({ error: 'Not authenticated' });
 
