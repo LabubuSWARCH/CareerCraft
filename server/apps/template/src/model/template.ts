@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
+import { TemplateSchema, TemplateHints } from '@shared/template-schema';
 
 export interface Template {
   templateId: string;
@@ -8,8 +9,8 @@ export interface Template {
   author?: string;
   tags?: string[];
   previewUrl?: string;
-  schemaJson: Record<string, unknown>;
-  hintJson?: Record<string, unknown>;
+  schemaJson: TemplateSchema;
+  hintJson?: TemplateHints;
   createdAt?: Date;
   updatedAt?: Date;
 }

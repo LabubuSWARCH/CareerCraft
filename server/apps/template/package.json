@@ -7,6 +7,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
     "start": "node dist/src/index.js",
+    "seed": "ts-node -r tsconfig-paths/register src/scripts/seed-templates.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",

@@ -1,0 +1,161 @@
+export type ContactField = 'email' | 'phone' | 'location' | 'website';
+
+export interface ResumeExperience {
+  id: string;
+  company: string;
+  role: string;
+  start: string;
+  end: string;
+  bullets: string[];
+}
+
+export interface ResumeEducation {
+  id: string;
+  school: string;
+  degree: string;
+  start: string;
+  end: string;
+  details?: string;
+}
+
+export interface ResumeProject {
+  id: string;
+  name: string;
+  description: string;
+  link?: string;
+}
+
+export interface ResumeData {
+  name: string;
+  title: string;
+  email: string;
+  phone: string;
+  location: string;
+  website?: string;
+  summary?: string;
+  skills: string[];
+  experience: ResumeExperience[];
+  education: ResumeEducation[];
+  projects: ResumeProject[];
+  showProjects: boolean;
+}
+
+export interface TemplateLayout {
+  frameClasses: string;
+  cardClasses: string;
+  rootClasses: string;
+  defaultPaddingClass: string;
+  compactPaddingClass: string;
+  header: {
+    containerClasses: string;
+    nameClasses: string;
+    titleClasses: string;
+  };
+  body: {
+    containerClasses: string;
+    columns: TemplateColumn[];
+  };
+}
+
+export interface TemplateColumn {
+  id: string;
+  span: number;
+  containerClasses: string;
+  sections: string[];
+}
+
+export type TemplateSection =
+  | ContactSection
+  | SkillsSection
+  | SummarySection
+  | ExperienceSection
+  | EducationSection
+  | ProjectsSection;
+
+interface SectionBase<Type extends string> {
+  id: string;
+  type: Type;
+  title: string;
+  containerClasses?: string;
+  titleClasses?: string;
+}
+
+export interface ContactSection extends SectionBase<'contact'> {
+  fields: ContactField[];
+  contentClasses: string;
+  itemClasses?: string;
+}
+
+export interface SkillsSection extends SectionBase<'skills'> {
+  contentClasses: string;
+  pillClasses: string;
+}
+
+export interface SummarySection extends SectionBase<'summary'> {
+  contentClasses: string;
+}
+
+export interface ExperienceSection extends SectionBase<'experience'> {
+  containerClasses: string;
+  itemClasses: string;
+  headerClasses: string;
+  roleClasses: string;
+  companyClasses: string;
+  dateClasses: string;
+  listClasses: string;
+}
+
+export interface EducationSection extends SectionBase<'education'> {
+  containerClasses: string;
+  headerClasses: string;
+  schoolClasses: string;
+  dateClasses: string;
+  detailsClasses?: string;
+}
+
+export interface ProjectsSection extends SectionBase<'projects'> {
+  containerClasses: string;
+  nameClasses: string;
+  linkClasses: string;
+  descriptionClasses: string;
+  toggleField?: keyof ResumeData;
+}
+
+export interface TemplateSchema {
+  componentId: string;
+  layout: TemplateLayout;
+  sections: TemplateSection[];
+}
+
+export interface TemplateHints {
+  [key: string]: unknown;
+}
+
+export interface TemplateDefinition {
+  templateId: string;
+  name: string;
+  version: string;
+  description?: string;
+  author?: string;
+  tags?: string[];
+  previewUrl?: string;
+  schemaJson: TemplateSchema;
+  hintJson?: TemplateHints;
+}
+
+export function formatDateRange(start: string, end: string): string {
+  if (!start && !end) return '';
+  if (start && !end) return `${formatDate(start)} – Present`;
+  if (!start && end) return end;
+  return `${formatDate(start)} – ${formatDate(end)}`;
+}
+
+function formatDate(value: string): string {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    year: 'numeric',
+  });
+}

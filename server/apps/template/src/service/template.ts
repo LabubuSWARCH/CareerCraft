@@ -1,3 +1,4 @@
+import { TemplateSchema, TemplateHints } from '@shared/template-schema';
 import { TemplateModel, Template } from '../model';
 
 export interface CreateTemplateInput {
@@ -8,8 +9,8 @@ export interface CreateTemplateInput {
   author?: string;
   tags?: string[];
   previewUrl?: string;
-  schemaJson: Record<string, unknown>;
-  hintJson?: Record<string, unknown>;
+  schemaJson: TemplateSchema;
+  hintJson?: TemplateHints;
 }
 
 export type UpdateTemplateInput = Partial<Omit<CreateTemplateInput, 'templateId'>>;
