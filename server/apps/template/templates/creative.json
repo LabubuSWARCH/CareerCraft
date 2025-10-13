@@ -1,0 +1,102 @@
+{
+  "templateId": "creative",
+  "name": "Creative",
+  "version": "1.0.0",
+  "description": "Rounded card layout with a bold hero header and accent colors for highlights.",
+  "author": "CareerCraft",
+  "tags": ["resume", "creative", "single-column"],
+  "previewUrl": "",
+  "schemaJson": {
+    "componentId": "creative",
+    "layout": {
+      "frameClasses": "p-8 flex items-center justify-center bg-gradient-to-br from-indigo-100 via-slate-100 to-white min-h-screen",
+      "cardClasses": "shadow-2xl",
+      "rootClasses": "w-[816px] min-h-[1123px] bg-white text-slate-900 rounded-3xl border border-indigo-100 overflow-hidden",
+      "defaultPaddingClass": "pb-12",
+      "compactPaddingClass": "pb-10",
+      "header": {
+        "containerClasses": "bg-slate-900 text-white px-12 py-14 rounded-b-[3rem] shadow-inner space-y-3 text-center",
+        "nameClasses": "text-5xl font-bold leading-tight",
+        "titleClasses": "text-lg text-slate-300"
+      },
+      "body": {
+        "containerClasses": "px-10 py-10 space-y-10",
+        "columns": [
+          {
+            "id": "main",
+            "span": 3,
+            "containerClasses": "space-y-10",
+            "sections": ["contact", "summary", "experience", "education", "projects", "skills"]
+          }
+        ]
+      }
+    },
+    "sections": [
+      {
+        "id": "contact",
+        "type": "contact",
+        "title": "Get in touch",
+        "titleClasses": "text-xs uppercase tracking-[0.4em] text-slate-500",
+        "containerClasses": "space-y-3",
+        "contentClasses": "grid grid-cols-2 gap-3 text-sm text-slate-700",
+        "itemClasses": "rounded-2xl bg-indigo-50 px-4 py-3 font-medium text-indigo-700",
+        "fields": ["email", "phone", "location", "website"]
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Profile",
+        "titleClasses": "text-xl font-semibold text-slate-900",
+        "contentClasses": "text-base leading-relaxed text-slate-700"
+      },
+      {
+        "id": "experience",
+        "type": "experience",
+        "title": "Experience",
+        "titleClasses": "text-xl font-semibold text-slate-900",
+        "containerClasses": "space-y-6",
+        "itemClasses": "space-y-3",
+        "headerClasses": "flex flex-col gap-2 md:flex-row md:items-center md:justify-between",
+        "roleClasses": "text-base font-semibold text-slate-900",
+        "companyClasses": "text-base text-slate-500",
+        "dateClasses": "text-sm font-medium text-indigo-600",
+        "listClasses": "list-disc ml-6 text-sm leading-relaxed text-slate-600"
+      },
+      {
+        "id": "education",
+        "type": "education",
+        "title": "Education",
+        "titleClasses": "text-xl font-semibold text-slate-900",
+        "containerClasses": "space-y-4",
+        "headerClasses": "flex flex-col gap-1 md:flex-row md:items-center md:justify-between",
+        "schoolClasses": "text-base font-medium text-slate-800",
+        "dateClasses": "text-sm text-indigo-600",
+        "detailsClasses": "text-sm text-slate-600"
+      },
+      {
+        "id": "projects",
+        "type": "projects",
+        "title": "Projects",
+        "titleClasses": "text-xl font-semibold text-slate-900",
+        "containerClasses": "space-y-4",
+        "nameClasses": "font-semibold text-indigo-700",
+        "linkClasses": "underline hover:text-indigo-500 transition-colors",
+        "descriptionClasses": "text-sm text-slate-600",
+        "toggleField": "showProjects"
+      },
+      {
+        "id": "skills",
+        "type": "skills",
+        "title": "Skills",
+        "titleClasses": "text-xl font-semibold text-slate-900",
+        "contentClasses": "flex flex-wrap gap-2",
+        "pillClasses": "bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-medium"
+      }
+    ]
+  },
+  "hintJson": {
+    "summary": "Keep your narrative concise—two short paragraphs highlighting accomplishments work best.",
+    "experience": "Call out impact in the bullets and lean on action verbs.",
+    "skills": "Group related skills to make scanning easier."
+  }
+}

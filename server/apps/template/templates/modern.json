@@ -1,0 +1,110 @@
+{
+  "templateId": "modern",
+  "name": "Modern",
+  "version": "1.0.0",
+  "description": "Two-column resume with a bold sidebar and modern typography.",
+  "author": "CareerCraft",
+  "tags": ["resume", "modern", "two-column"],
+  "previewUrl": "",
+  "schemaJson": {
+    "componentId": "modern",
+    "layout": {
+      "frameClasses": "p-6 flex items-start justify-center bg-zinc-100 min-h-screen",
+      "cardClasses": "shadow-xl",
+      "rootClasses": "w-[794px] min-h-[1123px] bg-white text-zinc-900",
+      "defaultPaddingClass": "p-10",
+      "compactPaddingClass": "p-8",
+      "header": {
+        "containerClasses": "border-l-4 border-zinc-900 pl-4",
+        "nameClasses": "text-4xl font-extrabold tracking-tight",
+        "titleClasses": "text-zinc-600"
+      },
+      "body": {
+        "containerClasses": "mt-4 grid grid-cols-3 gap-6",
+        "columns": [
+          {
+            "id": "sidebar",
+            "span": 1,
+            "containerClasses": "col-span-1 space-y-6",
+            "sections": ["contact", "skills"]
+          },
+          {
+            "id": "main",
+            "span": 2,
+            "containerClasses": "col-span-2 space-y-6",
+            "sections": ["summary", "experience", "education", "projects"]
+          }
+        ]
+      }
+    },
+    "sections": [
+      {
+        "id": "contact",
+        "type": "contact",
+        "title": "Contact",
+        "titleClasses": "text-xs uppercase font-semibold text-zinc-700 tracking-wide",
+        "contentClasses": "mt-2 text-sm space-y-1",
+        "itemClasses": "",
+        "fields": ["email", "phone", "location", "website"]
+      },
+      {
+        "id": "skills",
+        "type": "skills",
+        "title": "Skills",
+        "titleClasses": "text-xs uppercase font-semibold text-zinc-700 tracking-wide",
+        "contentClasses": "mt-2 flex flex-wrap gap-2",
+        "pillClasses": "text-xs bg-zinc-100 px-2 py-1 rounded"
+      },
+      {
+        "id": "summary",
+        "type": "summary",
+        "title": "Summary",
+        "titleClasses": "text-xs uppercase font-semibold text-zinc-700 tracking-wide",
+        "contentClasses": "mt-1 text-sm leading-relaxed"
+      },
+      {
+        "id": "experience",
+        "type": "experience",
+        "title": "Experience",
+        "titleClasses": "text-xs uppercase font-semibold text-zinc-700 tracking-wide",
+        "containerClasses": "mt-1 space-y-4",
+        "itemClasses": "space-y-2",
+        "headerClasses": "flex justify-between text-sm font-medium",
+        "roleClasses": "text-sm font-medium",
+        "companyClasses": "text-sm font-medium text-zinc-700",
+        "dateClasses": "text-sm text-zinc-600",
+        "listClasses": "list-disc ml-5 text-sm leading-relaxed"
+      },
+      {
+        "id": "education",
+        "type": "education",
+        "title": "Education",
+        "titleClasses": "text-xs uppercase font-semibold text-zinc-700 tracking-wide",
+        "containerClasses": "mt-1 space-y-2 text-sm",
+        "headerClasses": "flex justify-between font-medium",
+        "schoolClasses": "text-zinc-700",
+        "dateClasses": "text-zinc-600",
+        "detailsClasses": "text-zinc-700"
+      },
+      {
+        "id": "projects",
+        "type": "projects",
+        "title": "Projects",
+        "titleClasses": "text-xs uppercase font-semibold text-zinc-700 tracking-wide",
+        "containerClasses": "mt-1 space-y-2 text-sm",
+        "nameClasses": "font-medium",
+        "linkClasses": "underline",
+        "descriptionClasses": "text-zinc-700",
+        "toggleField": "showProjects"
+      }
+    ]
+  },
+  "hintJson": {
+    "layout": "Sidebar keeps contact details visible while the main column highlights content.",
+    "experience": [
+      "Use strong action verbs and quantify achievements.",
+      "Keep bullet points concise—no more than two lines each."
+    ],
+    "projects": "Toggle the projects section off with `showProjects` if you prefer a shorter resume."
+  }
+}

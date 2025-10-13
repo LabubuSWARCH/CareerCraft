@@ -9,9 +9,11 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@pkg/grpc/*": ["pkg/grpc/generated/*"]
+      "@pkg/grpc/*": ["pkg/grpc/generated/*"],
+      "@shared/template-schema": ["../shared/template-schema/src"],
+      "@shared/template-schema/*": ["../shared/template-schema/src/*"]
     }
   },
-  "include": ["apps/*/src/**/*.ts", "pkg/*/src/**/*.ts"],
+  "include": ["apps/*/src/**/*.ts", "pkg/*/src/**/*.ts", "pkg/grpc/generated/**/*.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

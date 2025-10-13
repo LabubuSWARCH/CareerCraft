@@ -1,3 +1,5 @@
+postman/
+
 # Node modules
 node_modules/
 **/node_modules/

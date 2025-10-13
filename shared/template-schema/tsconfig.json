@@ -1,0 +1,11 @@
+{
+  "extends": "../../server/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": false,
+    "noEmit": true,
+    "module": "ESNext"
+  },
+  "include": ["src/**/*.ts"]
+}
