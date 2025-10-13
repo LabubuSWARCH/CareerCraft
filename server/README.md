@@ -57,7 +57,3 @@ pnpm --filter grpc generate   # Regenerate gRPC client code
 ## Environment Variables
 
 Create `.env` files in each app directory (`apps/auth`, `apps/template`) to override defaults in their respective `src/config` modules.
-
-## Testing APIs
-
-Use the Postman collection under `postman/` together with the `CareerCraft.local.postman_environment.json` environment to exercise endpoints once services are running.
