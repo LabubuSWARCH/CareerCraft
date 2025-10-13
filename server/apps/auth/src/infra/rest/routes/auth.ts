@@ -1,5 +1,12 @@
 import { Router } from 'express';
-import { loginUser, logoutSession, registerUser, validateSession } from '../../../service/auth';
+import {
+  loginUser,
+  logoutSession,
+  registerUser,
+  validateSession,
+  requestPasswordReset,
+  resetPassword,
+} from '../../../service/auth';
 import { COOKIE_DOMAIN, NODE_ENV } from '../../../config';
 
 function getErrorMessage(err: unknown): string {
@@ -65,6 +72,26 @@ router.get('/profile', async (req, res) => {
   if (!user) return res.status(401).json({ error: 'Invalid session' });
 
   res.json(user);
+});
+
+router.post('/forgot', async (req, res) => {
+  try {
+    const { identifier } = req.body;
+    const result = await requestPasswordReset(identifier);
+    res.json(result);
+  } catch (err: unknown) {
+    res.status(400).json({ error: getErrorMessage(err) });
+  }
+});
+
+router.post('/reset', async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    const result = await resetPassword(token, newPassword);
+    res.json(result);
+  } catch (err: unknown) {
+    res.status(400).json({ error: getErrorMessage(err) });
+  }
 });
 
 export default router;
