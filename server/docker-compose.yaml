@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   postgres:
@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: main
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - ./.docker/sql/init:/docker-entrypoint-initdb.d
     restart: always
@@ -18,17 +18,28 @@ services:
     image: redis:8
     container_name: redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
     restart: always
 
   mongo:
     image: mongo:7
     container_name: mongo
     ports:
-      - "27017:27017"
+      - '27017:27017'
     restart: always
     volumes:
       - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: pass
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    restart: always
 
 volumes:
   mongo_data:
