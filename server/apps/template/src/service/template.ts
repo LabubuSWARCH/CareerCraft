@@ -70,7 +70,9 @@ export async function deleteTemplate(templateId: string): Promise<boolean> {
   return res.deletedCount === 1;
 }
 
-function normalizeTemplate(doc: any): Template {
+type RawTemplate = Template & { _id?: unknown };
+
+function normalizeTemplate(doc: RawTemplate): Template {
   return {
     templateId: doc.templateId,
     name: doc.name,

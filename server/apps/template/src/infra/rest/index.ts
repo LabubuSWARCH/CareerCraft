@@ -21,8 +21,11 @@ export async function startRestServer() {
   app.use(cookieParser());
   app.use('/templates', templateRoutes);
 
-  app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  app.use((err: unknown, _req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err);
+    if (res.headersSent) {
+      return next(err);
+    }
     res.status(500).json({ error: 'Internal server error' });
   });
 
