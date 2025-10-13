@@ -21,13 +21,15 @@ export async function startRestServer() {
   app.use(cookieParser());
   app.use('/templates', templateRoutes);
 
-  app.use((err: unknown, _req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error(err);
-    if (res.headersSent) {
-      return next(err);
-    }
-    res.status(500).json({ error: 'Internal server error' });
-  });
+  app.use(
+    (err: unknown, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+      console.error(err);
+      if (res.headersSent) {
+        return next(err);
+      }
+      res.status(500).json({ error: 'Internal server error' });
+    },
+  );
 
   app.listen(REST_PORT, () => {
     console.log(`Template REST server running on http://localhost:${REST_PORT}`);
