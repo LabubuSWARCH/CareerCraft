@@ -31,12 +31,12 @@ export const GridItem = ({
         <div className="border-0.75 relative flex flex-col h-full justify-between gap-6 overflow-hidden rounded-xl p-6 md:p-6 dark:shadow-[0px_0px_27px_0px_#2D2D2D]">
           <div className="relative flex flex-1 flex-col justify-between gap-3">
             {image ? (
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
+              <div className="relative w-full aspect-video rounded-2xl -z-10">
                 <Image
                   src={image}
                   alt={title}
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-top -rotate-z-12 rotate-x-12 -translate-y-8 scale-110"
                 />
               </div>
             ) : null}

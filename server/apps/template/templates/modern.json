@@ -40,7 +40,10 @@
           "borderColor": "#2563eb",
           "paddingLeft": "1.5rem",
           "paddingTop": "0.5rem",
-          "paddingBottom": "0.5rem"
+          "paddingBottom": "0.5rem",
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.5rem"
+          }
         },
         "nameStyle": {
           "fontSize": "3rem",
@@ -67,7 +70,9 @@
             "span": 1,
             "containerStyle": {
               "gridColumn": "span 1 / span 1",
-              "gap": "1.75rem"
+              "& > :not(:lastChild)": {
+                "marginBlockEnd": "1.75rem"
+              }
             },
             "sections": ["contact", "skills"]
           },
@@ -76,7 +81,9 @@
             "span": 2,
             "containerStyle": {
               "gridColumn": "span 2 / span 2",
-              "gap": "1.75rem"
+              "& > :not(:lastChild)": {
+                "marginBlockEnd": "1.75rem"
+              }
             },
             "sections": ["summary", "experience", "education", "projects"]
           }
@@ -97,10 +104,14 @@
           "marginBottom": "0.75rem"
         },
         "containerStyle": {
-          "gap": "0.75rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.75rem"
+          }
         },
         "contentStyle": {
-          "gap": "0.5rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.5rem"
+          }
         },
         "itemStyle": {
           "fontSize": "0.875rem",
@@ -122,7 +133,9 @@
           "marginBottom": "0.75rem"
         },
         "containerStyle": {
-          "gap": "0.75rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.75rem"
+          }
         },
         "contentStyle": {
           "display": "flex",
@@ -154,7 +167,9 @@
           "marginBottom": "0.75rem"
         },
         "containerStyle": {
-          "gap": "0.75rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.75rem"
+          }
         },
         "contentStyle": {
           "fontSize": "0.875rem",
@@ -175,10 +190,14 @@
           "marginBottom": "1rem"
         },
         "containerStyle": {
-          "gap": "1.25rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "1.25rem"
+          }
         },
         "itemStyle": {
-          "gap": "0.5rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.5rem"
+          }
         },
         "headerStyle": {
           "display": "flex",
@@ -206,7 +225,9 @@
           "fontSize": "0.875rem",
           "color": "#334155",
           "lineHeight": "1.625",
-          "gap": "0.25rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "0.25rem"
+          }
         }
       },
       {
@@ -222,7 +243,9 @@
           "marginBottom": "1rem"
         },
         "containerStyle": {
-          "gap": "1rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "1rem"
+          }
         },
         "headerStyle": {
           "display": "flex",
@@ -259,7 +282,9 @@
           "marginBottom": "1rem"
         },
         "containerStyle": {
-          "gap": "1rem"
+          "& > :not(:lastChild)": {
+            "marginBlockEnd": "1rem"
+          }
         },
         "nameStyle": {
           "fontSize": "1rem",
