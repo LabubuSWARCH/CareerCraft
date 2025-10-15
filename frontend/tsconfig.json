@@ -21,7 +21,8 @@
       "@/lib/*": ["src/lib/*"],
       "@/data/*": ["src/data/*"],
       "@/providers/*": ["src/providers/*"],
-      "@/types/*": ["src/types/*"]
+      "@/types/*": ["src/types/*"],
+      "@/hooks/*": ["src/hooks/*"]
     },
     "esModuleInterop": true,
     "plugins": [

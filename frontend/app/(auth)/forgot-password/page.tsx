@@ -33,7 +33,6 @@ const WAIT_TIME = 60;
 const SUCCESS_DISPLAY_TIME = 5;
 const ERROR_DISPLAY_TIME = 5;
 
-// Reusable animation variants
 const textTransition = {
   initial: { opacity: 0, y: 10 },
   animate: { opacity: 1, y: 0 },
@@ -64,7 +63,6 @@ export default function ForgotPasswordPage() {
     try {
       await forgotPasswordMutation.mutateAsync(data);
 
-      // Show success state
       setShowSuccess(true);
       setTimer(WAIT_TIME);
 

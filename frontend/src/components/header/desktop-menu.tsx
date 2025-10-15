@@ -1,6 +1,5 @@
 "use client";
 
-import { useUser } from "@/providers/user-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,47 +8,39 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Spinner } from "../ui/spinner";
-import { LogOut } from "lucide-react";
 
-export default function Menu() {
-  const { profile: profileQuery, logout: logoutMutation } = useUser();
+interface MenuProps {
+  user:
+    | {
+        username: string;
+        full_name: string;
+        profile_picture?: string;
+      }
+    | null
+    | undefined;
+  onLogout: () => void;
+}
 
-  const logout = async () => {
-    await logoutMutation.mutateAsync();
-  };
-
-  if (profileQuery.isPending) {
-    return (
-      <Avatar>
-        <AvatarFallback>
-          <Spinner />
-        </AvatarFallback>
-      </Avatar>
-    );
-  }
-
-  if (!profileQuery.data)
+export default function DesktopMenu({ user, onLogout }: MenuProps) {
+  if (!user) {
     return (
       <Button asChild>
         <Link href="/login">Login</Link>
       </Button>
     );
-
-  const {
-    data: { username, full_name, profile_picture },
-  } = profileQuery;
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarImage src={profile_picture} alt={username} />
+          <AvatarImage src={user.profile_picture} alt={user.username} />
           <AvatarFallback>
-            {full_name
+            {user.full_name
               .split(" ")
               .map((n) => n[0])
               .join("")
@@ -58,9 +49,9 @@ export default function Menu() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>{username}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout}>
+        <DropdownMenuItem onClick={onLogout}>
           <LogOut />
           Log out
         </DropdownMenuItem>
