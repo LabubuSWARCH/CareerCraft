@@ -48,7 +48,7 @@ export default function Nav() {
   }
 
   return (
-    <nav className="flex items-center justify-between">
+    <nav className="flex items-center justify-between gap-2">
       {LINKS.map((link) => (
         <Button asChild variant="ghost" key={link.href}>
           <Link href={link.href}>{link.label}</Link>
