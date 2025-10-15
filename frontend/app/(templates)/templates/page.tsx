@@ -1,19 +1,6 @@
-import { fetchTemplates } from "@/lib/templates";
-import type { TemplateDefinition } from "@shared/template-schema";
-import { TemplateCard } from "app/(templates)/_components/template-card";
+import { TemplatesList } from "app/(templates)/_components/templates-list";
 
-async function loadTemplates(): Promise<TemplateDefinition[]> {
-  try {
-    return await fetchTemplates();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
-
-export default async function TemplatesPage() {
-  const templates = await loadTemplates();
-
+export default function TemplatesPage() {
   return (
     <main className="container mx-auto px-8 py-12 flex flex-col gap-8">
       <div className="space-y-2">
@@ -24,11 +11,7 @@ export default async function TemplatesPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {templates.map((template) => (
-          <TemplateCard key={template.templateId} template={template} />
-        ))}
-      </div>
+      <TemplatesList />
     </main>
   );
 }

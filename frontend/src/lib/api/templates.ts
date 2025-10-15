@@ -2,8 +2,12 @@ import { TemplateDefinition } from "@shared/template-schema";
 
 const DEFAULT_API_BASE = "http://localhost:8081/templates";
 
-export async function fetchTemplates(): Promise<TemplateDefinition[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_TEMPLATE_API ?? DEFAULT_API_BASE;
+function getBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_TEMPLATE_API ?? DEFAULT_API_BASE;
+}
+
+export async function getTemplates(): Promise<TemplateDefinition[]> {
+  const baseUrl = getBaseUrl();
   const response = await fetch(`${baseUrl}/templates`, {
     next: { revalidate: 0 },
   });
@@ -15,10 +19,10 @@ export async function fetchTemplates(): Promise<TemplateDefinition[]> {
   return response.json();
 }
 
-export async function fetchTemplate(
+export async function getTemplate(
   templateId: string
 ): Promise<TemplateDefinition> {
-  const baseUrl = process.env.NEXT_PUBLIC_TEMPLATE_API ?? DEFAULT_API_BASE;
+  const baseUrl = getBaseUrl();
   const response = await fetch(`${baseUrl}/templates/${templateId}`, {
     next: { revalidate: 0 },
   });
