@@ -21,7 +21,7 @@ export function TemplateCard({ template }: TemplateCardProps) {
   return (
     <Link href={`/templates/${template.templateId}`} className="group block">
       <Card className="overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02]">
-        <div className="relative overflow-hidden border-b h-[14rem]">
+        <div className="relative overflow-hidden border-b h-56">
           <div className="absolute scale-50 origin-top-left -top-4 left-1/2 -translate-x-1/4">
             <TemplateRenderer
               schema={template.schemaJson}

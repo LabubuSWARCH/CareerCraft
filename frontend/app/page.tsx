@@ -13,7 +13,7 @@ export default async function HomePage() {
         </div>
         <h1 className="mb-0  text-balance tracking-tighter font-bold text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem]">
           Craft resumes that get you{" "}
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
             hired
           </span>
         </h1>
@@ -45,7 +45,7 @@ export default async function HomePage() {
             Powerful features to help you create the perfect resume
           </p>
         </div>
-        <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-2 lg:gap-4 max-w-screen-lg mx-auto">
+        <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-2 lg:gap-4 max-w-(--breakpoint-lg) mx-auto">
           <GridItem
             area="md:[grid-area:1/1/3/8]"
             icon={
@@ -71,7 +71,7 @@ export default async function HomePage() {
       </section>
 
       <section className="text-center">
-        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl p-12 md:p-16 border">
+        <div className="bg-linear-to-br from-primary/10 to-secondary/10 rounded-3xl p-12 md:p-16 border">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to craft your career?
           </h2>

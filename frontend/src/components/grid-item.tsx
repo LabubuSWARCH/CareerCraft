@@ -17,7 +17,7 @@ export const GridItem = ({
   image,
 }: GridItemProps) => {
   return (
-    <li className={`min-h-[14rem] list-none ${area} block`}>
+    <li className={`min-h-56 list-none ${area} block`}>
       <div className="relative flex flex-col rounded-2xl h-full border p-2 md:rounded-3xl md:p-3">
         <GlowingEffect
           blur={0}
@@ -47,7 +47,7 @@ export const GridItem = ({
               <h3 className="-tracking-4 pt-0.5 font-sans text-xl/[1.375rem] font-semibold text-balance text-black md:text-2xl/[1.875rem] dark:text-white">
                 {title}
               </h3>
-              <h2 className="font-sans text-sm/[1.125rem] text-black md:text-base/[1.375rem] dark:text-neutral-400 [&_b]:md:font-semibold [&_strong]:md:font-semibold">
+              <h2 className="font-sans text-sm/[1.125rem] text-black md:text-base/[1.375rem] dark:text-neutral-400 md:[&_b]:font-semibold md:[&_strong]:font-semibold">
                 {description}
               </h2>
             </div>
