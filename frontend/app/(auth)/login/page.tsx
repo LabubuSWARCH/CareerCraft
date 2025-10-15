@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { LoginData, loginDataSchema } from "@/types/user";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -47,7 +47,7 @@ const iconTransition = {
   transition: { duration: 0.3 },
 };
 
-export default function LoginPage() {
+function LoginForm() {
   const { login: loginMutation } = useUser();
   const router = useRouter();
   const [showSuccess, setShowSuccess] = useState(false);
@@ -205,5 +205,29 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="container mx-auto flex items-center justify-center p-4">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle>Login to your account</CardTitle>
+              <CardDescription>
+                Enter your username and password to login to your account.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center py-8">
+              <Spinner />
+            </CardContent>
+          </Card>
+        </main>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

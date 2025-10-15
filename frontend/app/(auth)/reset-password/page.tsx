@@ -35,7 +35,7 @@ import { resetPasswordDataSchema } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useUser } from "@/providers/user-provider";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -68,7 +68,7 @@ const resetPasswordFormSchema = resetPasswordDataSchema
 
 type ResetPasswordFormData = z.infer<typeof resetPasswordFormSchema>;
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");
@@ -283,5 +283,27 @@ export default function ResetPasswordPage() {
         </CardFooter>
       </Card>
     </main>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="container mx-auto flex items-center justify-center p-4">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle>Reset Password</CardTitle>
+              <CardDescription>Loading...</CardDescription>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center py-8">
+              <Spinner />
+            </CardContent>
+          </Card>
+        </main>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
