@@ -9,23 +9,69 @@
   "schemaJson": {
     "componentId": "classic",
     "layout": {
-      "frameClasses": "flex items-start justify-center bg-slate-50 min-h-screen py-8",
-      "cardClasses": "shadow-xl rounded-lg overflow-hidden",
-      "rootClasses": "w-[210mm] min-h-[297mm] bg-white text-slate-900",
-      "defaultPaddingClass": "px-16 py-12",
-      "compactPaddingClass": "px-12 py-10",
+      "frameStyle": {
+        "display": "flex",
+        "alignItems": "flex-start",
+        "justifyContent": "center",
+        "minHeight": "100vh",
+        "paddingTop": "2rem",
+        "paddingBottom": "2rem"
+      },
+      "cardStyle": {
+        "boxShadow": "0 20px 25px -5px rgb(0 0 0 / 0.1)",
+        "borderRadius": "0.5rem",
+        "overflow": "hidden"
+      },
+      "rootStyle": {
+        "width": "210mm",
+        "minHeight": "297mm",
+        "backgroundColor": "#ffffff",
+        "color": "#0f172a"
+      },
+      "defaultPaddingStyle": {
+        "paddingLeft": "4rem",
+        "paddingRight": "4rem",
+        "paddingTop": "3rem",
+        "paddingBottom": "3rem"
+      },
+      "compactPaddingStyle": {
+        "paddingLeft": "3rem",
+        "paddingRight": "3rem",
+        "paddingTop": "2.5rem",
+        "paddingBottom": "2.5rem"
+      },
       "header": {
-        "containerClasses": "text-center space-y-3 pb-6 border-b-2 border-slate-200",
-        "nameClasses": "text-5xl font-bold tracking-tight text-slate-900",
-        "titleClasses": "text-lg text-slate-600 font-medium"
+        "containerStyle": {
+          "textAlign": "center",
+          "gap": "0.75rem",
+          "paddingBottom": "1.5rem",
+          "borderBottomWidth": "2px",
+          "borderColor": "#e2e8f0"
+        },
+        "nameStyle": {
+          "fontSize": "3rem",
+          "fontWeight": "700",
+          "letterSpacing": "-0.025em",
+          "color": "#0f172a"
+        },
+        "titleStyle": {
+          "fontSize": "1.125rem",
+          "color": "#475569",
+          "fontWeight": "500"
+        }
       },
       "body": {
-        "containerClasses": "mt-10 space-y-8",
+        "containerStyle": {
+          "marginTop": "2.5rem",
+          "gap": "2rem"
+        },
         "columns": [
           {
             "id": "main",
             "span": 1,
-            "containerClasses": "space-y-8",
+            "containerStyle": {
+              "gap": "2rem"
+            },
             "sections": ["contact", "summary", "experience", "education", "projects", "skills"]
           }
         ]
@@ -36,63 +82,192 @@
         "id": "contact",
         "type": "contact",
         "title": "Contact",
-        "titleClasses": "sr-only",
-        "containerClasses": "space-y-0",
-        "contentClasses": "flex flex-wrap justify-center gap-x-6 gap-y-2",
-        "itemClasses": "text-sm text-slate-600",
+        "titleStyle": {
+          "position": "absolute",
+          "width": "1px",
+          "height": "1px",
+          "padding": "0",
+          "margin": "-1px",
+          "overflow": "hidden",
+          "clip": "rect(0, 0, 0, 0)",
+          "whiteSpace": "nowrap",
+          "borderWidth": "0"
+        },
+        "containerStyle": {
+          "gap": "0"
+        },
+        "contentStyle": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "justifyContent": "center",
+          "gap": "y-2",
+          "columnGap": "1.5rem",
+          "rowGap": "0.5rem"
+        },
+        "itemStyle": {
+          "fontSize": "0.875rem",
+          "color": "#475569"
+        },
         "fields": ["email", "phone", "location", "website"]
       },
       {
         "id": "summary",
         "type": "summary",
         "title": "Professional Summary",
-        "titleClasses": "text-xl font-bold text-slate-900 mb-3",
-        "containerClasses": "space-y-3",
-        "contentClasses": "text-sm leading-relaxed text-slate-700"
+        "titleStyle": {
+          "fontSize": "1.25rem",
+          "fontWeight": "700",
+          "color": "#0f172a",
+          "marginBottom": "0.75rem"
+        },
+        "containerStyle": {
+          "gap": "0.75rem"
+        },
+        "contentStyle": {
+          "fontSize": "0.875rem",
+          "lineHeight": "1.625",
+          "color": "#334155"
+        }
       },
       {
         "id": "experience",
         "type": "experience",
         "title": "Experience",
-        "titleClasses": "text-xl font-bold text-slate-900 mb-4",
-        "containerClasses": "space-y-6",
-        "itemClasses": "space-y-3",
-        "headerClasses": "flex justify-between items-start gap-4",
-        "roleClasses": "text-base font-semibold text-slate-900",
-        "companyClasses": "text-base text-slate-600",
-        "dateClasses": "text-sm text-slate-500 whitespace-nowrap",
-        "listClasses": "list-disc ml-5 text-sm text-slate-700 leading-relaxed space-y-1 mt-2"
+        "titleStyle": {
+          "fontSize": "1.25rem",
+          "fontWeight": "700",
+          "color": "#0f172a",
+          "marginBottom": "1rem"
+        },
+        "containerStyle": {
+          "gap": "1.5rem"
+        },
+        "itemStyle": {
+          "gap": "0.75rem"
+        },
+        "headerStyle": {
+          "display": "flex",
+          "justifyContent": "space-between",
+          "alignItems": "flex-start",
+          "gap": "1rem"
+        },
+        "roleStyle": {
+          "fontSize": "1rem",
+          "fontWeight": "600",
+          "color": "#0f172a"
+        },
+        "companyStyle": {
+          "fontSize": "1rem",
+          "color": "#475569"
+        },
+        "dateStyle": {
+          "fontSize": "0.875rem",
+          "color": "#64748b",
+          "whiteSpace": "nowrap"
+        },
+        "listStyle": {
+          "listStyleType": "disc",
+          "marginLeft": "1.25rem",
+          "fontSize": "0.875rem",
+          "color": "#334155",
+          "lineHeight": "1.625",
+          "gap": "0.25rem",
+          "marginTop": "0.5rem"
+        }
       },
       {
         "id": "education",
         "type": "education",
         "title": "Education",
-        "titleClasses": "text-xl font-bold text-slate-900 mb-4",
-        "containerClasses": "space-y-4",
-        "headerClasses": "flex justify-between items-start gap-4",
-        "schoolClasses": "text-base font-semibold text-slate-800",
-        "dateClasses": "text-sm text-slate-500 whitespace-nowrap",
-        "detailsClasses": "text-sm text-slate-600 mt-1"
+        "titleStyle": {
+          "fontSize": "1.25rem",
+          "fontWeight": "700",
+          "color": "#0f172a",
+          "marginBottom": "1rem"
+        },
+        "containerStyle": {
+          "gap": "1rem"
+        },
+        "headerStyle": {
+          "display": "flex",
+          "justifyContent": "space-between",
+          "alignItems": "flex-start",
+          "gap": "1rem"
+        },
+        "dateStyle": {
+          "fontSize": "0.875rem",
+          "color": "#64748b",
+          "whiteSpace": "nowrap"
+        },
+        "schoolStyle": {
+          "fontSize": "1rem",
+          "fontWeight": "600",
+          "color": "#1e293b"
+        },
+        "detailsStyle": {
+          "fontSize": "0.875rem",
+          "color": "#475569",
+          "marginTop": "0.25rem"
+        }
       },
       {
         "id": "projects",
         "type": "projects",
         "title": "Projects",
-        "titleClasses": "text-xl font-bold text-slate-900 mb-4",
-        "containerClasses": "space-y-4",
-        "nameClasses": "text-base font-semibold text-slate-800",
-        "linkClasses": "underline hover:text-slate-600 transition-colors",
-        "descriptionClasses": "text-sm text-slate-600 mt-1",
+        "titleStyle": {
+          "fontSize": "1.25rem",
+          "fontWeight": "700",
+          "color": "#0f172a",
+          "marginBottom": "1rem"
+        },
+        "containerStyle": {
+          "gap": "1rem"
+        },
+        "nameStyle": {
+          "fontSize": "1rem",
+          "fontWeight": "600",
+          "color": "#1e293b"
+        },
+        "linkStyle": {
+          "textDecoration": "underline",
+          "color": "#475569"
+        },
+        "descriptionStyle": {
+          "fontSize": "0.875rem",
+          "color": "#475569",
+          "marginTop": "0.25rem"
+        },
         "toggleField": "showProjects"
       },
       {
         "id": "skills",
         "type": "skills",
         "title": "Skills",
-        "titleClasses": "text-xl font-bold text-slate-900 mb-3",
-        "containerClasses": "space-y-3",
-        "contentClasses": "flex flex-wrap gap-2",
-        "pillClasses": "px-3 py-1.5 rounded-md bg-slate-100 text-slate-700 text-sm font-medium"
+        "titleStyle": {
+          "fontSize": "1.25rem",
+          "fontWeight": "700",
+          "color": "#0f172a",
+          "marginBottom": "0.75rem"
+        },
+        "containerStyle": {
+          "gap": "0.75rem"
+        },
+        "contentStyle": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "gap": "0.5rem"
+        },
+        "pillStyle": {
+          "paddingLeft": "0.75rem",
+          "paddingRight": "0.75rem",
+          "paddingTop": "0.375rem",
+          "paddingBottom": "0.375rem",
+          "borderRadius": "0.375rem",
+          "backgroundColor": "#f1f5f9",
+          "color": "#334155",
+          "fontSize": "0.875rem",
+          "fontWeight": "500"
+        }
       }
     ]
   },

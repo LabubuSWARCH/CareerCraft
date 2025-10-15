@@ -1,5 +1,6 @@
-export type ContactField = 'email' | 'phone' | 'location' | 'website';
+export type ContactField = "email" | "phone" | "location" | "website";
 
+type CSSProperties = Record<string, string>;
 export interface ResumeExperience {
   id: string;
   company: string;
@@ -41,18 +42,18 @@ export interface ResumeData {
 }
 
 export interface TemplateLayout {
-  frameClasses: string;
-  cardClasses: string;
-  rootClasses: string;
-  defaultPaddingClass: string;
-  compactPaddingClass: string;
+  frameStyle: CSSProperties;
+  cardStyle: CSSProperties;
+  rootStyle: CSSProperties;
+  defaultPaddingStyle?: CSSProperties;
+  compactPaddingStyle?: CSSProperties;
   header: {
-    containerClasses: string;
-    nameClasses: string;
-    titleClasses: string;
+    containerStyle: CSSProperties;
+    nameStyle: CSSProperties;
+    titleStyle: CSSProperties;
   };
   body: {
-    containerClasses: string;
+    containerStyle: CSSProperties;
     columns: TemplateColumn[];
   };
 }
@@ -60,7 +61,7 @@ export interface TemplateLayout {
 export interface TemplateColumn {
   id: string;
   span: number;
-  containerClasses: string;
+  containerStyle: CSSProperties;
   sections: string[];
 }
 
@@ -76,48 +77,48 @@ interface SectionBase<Type extends string> {
   id: string;
   type: Type;
   title: string;
-  containerClasses?: string;
-  titleClasses?: string;
+  containerStyle?: CSSProperties;
+  titleStyle?: CSSProperties;
 }
 
-export interface ContactSection extends SectionBase<'contact'> {
+export interface ContactSection extends SectionBase<"contact"> {
   fields: ContactField[];
-  contentClasses: string;
-  itemClasses?: string;
+  contentStyle: CSSProperties;
+  itemStyle?: CSSProperties;
 }
 
-export interface SkillsSection extends SectionBase<'skills'> {
-  contentClasses: string;
-  pillClasses: string;
+export interface SkillsSection extends SectionBase<"skills"> {
+  contentStyle: CSSProperties;
+  pillStyle: CSSProperties;
 }
 
-export interface SummarySection extends SectionBase<'summary'> {
-  contentClasses: string;
+export interface SummarySection extends SectionBase<"summary"> {
+  contentStyle: CSSProperties;
 }
 
-export interface ExperienceSection extends SectionBase<'experience'> {
-  containerClasses: string;
-  itemClasses: string;
-  headerClasses: string;
-  roleClasses: string;
-  companyClasses: string;
-  dateClasses: string;
-  listClasses: string;
+export interface ExperienceSection extends SectionBase<"experience"> {
+  containerStyle: CSSProperties;
+  itemStyle: CSSProperties;
+  headerStyle: CSSProperties;
+  roleStyle: CSSProperties;
+  companyStyle: CSSProperties;
+  dateStyle: CSSProperties;
+  listStyle: CSSProperties;
 }
 
-export interface EducationSection extends SectionBase<'education'> {
-  containerClasses: string;
-  headerClasses: string;
-  schoolClasses: string;
-  dateClasses: string;
-  detailsClasses?: string;
+export interface EducationSection extends SectionBase<"education"> {
+  containerStyle: CSSProperties;
+  headerStyle: CSSProperties;
+  schoolStyle: CSSProperties;
+  dateStyle: CSSProperties;
+  detailsStyle?: CSSProperties;
 }
 
-export interface ProjectsSection extends SectionBase<'projects'> {
-  containerClasses: string;
-  nameClasses: string;
-  linkClasses: string;
-  descriptionClasses: string;
+export interface ProjectsSection extends SectionBase<"projects"> {
+  containerStyle: CSSProperties;
+  nameStyle: CSSProperties;
+  linkStyle: CSSProperties;
+  descriptionStyle: CSSProperties;
   toggleField?: keyof ResumeData;
 }
 
@@ -144,18 +145,18 @@ export interface TemplateDefinition {
 }
 
 export function formatDateRange(start: string, end: string): string {
-  if (!start && !end) return '';
+  if (!start && !end) return "";
   if (start && !end) return `${formatDate(start)} – Present`;
   if (!start && end) return end;
   return `${formatDate(start)} – ${formatDate(end)}`;
 }
 
 function formatDate(value: string): string {
-  if (!value) return '';
+  if (!value) return "";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    year: 'numeric',
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
   });
 }

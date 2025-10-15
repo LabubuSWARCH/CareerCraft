@@ -2,19 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { TemplateRenderer } from "./template-renderer";
-import type { TemplateDefinition, ResumeData } from "@shared/template-schema";
+import type { ResumeData, TemplateSchema } from "@shared/template-schema";
 
 interface TemplatePreviewProps {
-  template: TemplateDefinition;
+  schema: TemplateSchema;
   data: ResumeData;
-  compact?: boolean;
 }
 
-export function TemplatePreview({
-  template,
-  data,
-  compact = false,
-}: TemplatePreviewProps) {
+export function TemplatePreview({ data, schema }: TemplatePreviewProps) {
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
@@ -43,11 +38,7 @@ export function TemplatePreview({
       className="w-full"
       style={{ transform: `scale(${scale})`, transformOrigin: "top center" }}
     >
-      <TemplateRenderer
-        schema={template.schemaJson}
-        data={data}
-        compact={compact}
-      />
+      <TemplateRenderer schema={schema} data={data} clickable={false} />
     </div>
   );
 }

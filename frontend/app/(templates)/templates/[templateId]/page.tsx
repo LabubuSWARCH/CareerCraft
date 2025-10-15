@@ -1,11 +1,12 @@
 import { fetchTemplate, fetchTemplates } from "@/lib/templates";
 import type { TemplateDefinition } from "@shared/template-schema";
 import { notFound } from "next/navigation";
-import { sampleResume } from "@/data/sampleResume";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
-import { TemplatePreview } from "app/(templates)/_components/template-preview-screen";
+import { TemplatePreview } from "app/(templates)/_components/template-preview";
+import { MOCK_RESUME } from "@/data/mock-resume";
+import { Badge } from "@/components/ui/badge";
 
 interface TemplatePageProps {
   params: Promise<{
@@ -57,13 +58,15 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
         </Button>
       </div>
 
-      <div className="max-w-4xl mx-auto w-full">
-        <TemplatePreview
-          template={template}
-          data={sampleResume}
-          compact={false}
-        />
+      <div className="flex flex-wrap gap-2">
+        {template.tags?.map((tag) => (
+          <Badge key={tag} className="capitalize" variant="secondary">
+            {tag}
+          </Badge>
+        ))}
       </div>
+
+      <TemplatePreview schema={template.schemaJson} data={MOCK_RESUME} />
     </main>
   );
 }

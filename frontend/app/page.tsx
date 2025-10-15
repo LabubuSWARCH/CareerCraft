@@ -12,7 +12,10 @@ export default async function HomePage() {
           <span>Build your resume in minutes</span>
         </div>
         <h1 className="mb-0  text-balance tracking-tighter font-bold text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem]">
-          Craft resumes that get you <span className="text-primary">hired</span>
+          Craft resumes that get you{" "}
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            hired
+          </span>
         </h1>
         <p className="mt-0 mb-0 text-balance text-lg md:text-xl text-muted-foreground max-w-2xl ">
           Create professional resumes with our intuitive builder and
@@ -50,7 +53,7 @@ export default async function HomePage() {
             }
             title="Beautiful Templates"
             description="Choose from a variety of professionally designed templates."
-            image="https://placehold.co/800x600.png"
+            image="/templates_classic.png"
           />
           <GridItem
             area="md:[grid-area:1/8/2/13]"
