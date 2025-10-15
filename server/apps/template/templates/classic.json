@@ -2,29 +2,29 @@
   "templateId": "classic",
   "name": "Classic",
   "version": "1.0.0",
-  "description": "Clean single-column layout with subtle dividers and serif headings.",
+  "description": "Clean single-column layout with professional typography and clear hierarchy.",
   "author": "CareerCraft",
-  "tags": ["resume", "classic", "single-column"],
+  "tags": ["resume", "classic", "single-column", "professional"],
   "previewUrl": "",
   "schemaJson": {
     "componentId": "classic",
     "layout": {
-      "frameClasses": "p-8 flex items-start justify-center bg-slate-200 min-h-screen",
-      "cardClasses": "shadow-lg",
-      "rootClasses": "w-[794px] min-h-[1123px] bg-white text-slate-900",
-      "defaultPaddingClass": "px-12 py-14",
-      "compactPaddingClass": "px-10 py-12",
+      "frameClasses": "flex items-start justify-center bg-slate-50 min-h-screen py-8",
+      "cardClasses": "shadow-xl rounded-lg overflow-hidden",
+      "rootClasses": "w-[210mm] min-h-[297mm] bg-white text-slate-900",
+      "defaultPaddingClass": "px-16 py-12",
+      "compactPaddingClass": "px-12 py-10",
       "header": {
-        "containerClasses": "text-center border-b border-slate-300 pb-6",
-        "nameClasses": "text-5xl font-serif tracking-tight",
-        "titleClasses": "text-base uppercase tracking-[0.4em] text-slate-500 mt-3"
+        "containerClasses": "text-center space-y-3 pb-6 border-b-2 border-slate-200",
+        "nameClasses": "text-5xl font-bold tracking-tight text-slate-900",
+        "titleClasses": "text-lg text-slate-600 font-medium"
       },
       "body": {
-        "containerClasses": "mt-8 space-y-8",
+        "containerClasses": "mt-10 space-y-8",
         "columns": [
           {
             "id": "main",
-            "span": 3,
+            "span": 1,
             "containerClasses": "space-y-8",
             "sections": ["contact", "summary", "experience", "education", "projects", "skills"]
           }
@@ -36,61 +36,63 @@
         "id": "contact",
         "type": "contact",
         "title": "Contact",
-        "titleClasses": "text-xs uppercase tracking-[0.4em] text-slate-500",
-        "containerClasses": "flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm",
-        "contentClasses": "flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm",
-        "itemClasses": "text-slate-700",
+        "titleClasses": "sr-only",
+        "containerClasses": "space-y-0",
+        "contentClasses": "flex flex-wrap justify-center gap-x-6 gap-y-2",
+        "itemClasses": "text-sm text-slate-600",
         "fields": ["email", "phone", "location", "website"]
       },
       {
         "id": "summary",
         "type": "summary",
-        "title": "Profile",
-        "titleClasses": "text-lg font-semibold text-slate-800 border-b border-slate-200 pb-2",
-        "contentClasses": "mt-3 text-base leading-relaxed text-slate-700"
+        "title": "Professional Summary",
+        "titleClasses": "text-xl font-bold text-slate-900 mb-3",
+        "containerClasses": "space-y-3",
+        "contentClasses": "text-sm leading-relaxed text-slate-700"
       },
       {
         "id": "experience",
         "type": "experience",
-        "title": "Professional Experience",
-        "titleClasses": "text-lg font-semibold text-slate-800 border-b border-slate-200 pb-2",
-        "containerClasses": "mt-4 space-y-6",
-        "itemClasses": "space-y-2",
-        "headerClasses": "flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1",
+        "title": "Experience",
+        "titleClasses": "text-xl font-bold text-slate-900 mb-4",
+        "containerClasses": "space-y-6",
+        "itemClasses": "space-y-3",
+        "headerClasses": "flex justify-between items-start gap-4",
         "roleClasses": "text-base font-semibold text-slate-900",
         "companyClasses": "text-base text-slate-600",
-        "dateClasses": "text-sm text-slate-500",
-        "listClasses": "list-disc ml-6 text-sm text-slate-700 leading-relaxed"
+        "dateClasses": "text-sm text-slate-500 whitespace-nowrap",
+        "listClasses": "list-disc ml-5 text-sm text-slate-700 leading-relaxed space-y-1 mt-2"
       },
       {
         "id": "education",
         "type": "education",
         "title": "Education",
-        "titleClasses": "text-lg font-semibold text-slate-800 border-b border-slate-200 pb-2",
-        "containerClasses": "mt-4 space-y-4 text-base",
-        "headerClasses": "flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1",
-        "schoolClasses": "text-slate-700",
-        "dateClasses": "text-sm text-slate-500",
-        "detailsClasses": "text-sm text-slate-600"
+        "titleClasses": "text-xl font-bold text-slate-900 mb-4",
+        "containerClasses": "space-y-4",
+        "headerClasses": "flex justify-between items-start gap-4",
+        "schoolClasses": "text-base font-semibold text-slate-800",
+        "dateClasses": "text-sm text-slate-500 whitespace-nowrap",
+        "detailsClasses": "text-sm text-slate-600 mt-1"
       },
       {
         "id": "projects",
         "type": "projects",
-        "title": "Selected Projects",
-        "titleClasses": "text-lg font-semibold text-slate-800 border-b border-slate-200 pb-2",
-        "containerClasses": "mt-4 space-y-4 text-base",
-        "nameClasses": "font-semibold text-slate-800",
-        "linkClasses": "underline text-slate-600",
-        "descriptionClasses": "text-sm text-slate-600",
+        "title": "Projects",
+        "titleClasses": "text-xl font-bold text-slate-900 mb-4",
+        "containerClasses": "space-y-4",
+        "nameClasses": "text-base font-semibold text-slate-800",
+        "linkClasses": "underline hover:text-slate-600 transition-colors",
+        "descriptionClasses": "text-sm text-slate-600 mt-1",
         "toggleField": "showProjects"
       },
       {
         "id": "skills",
         "type": "skills",
         "title": "Skills",
-        "titleClasses": "text-lg font-semibold text-slate-800 border-b border-slate-200 pb-2",
-        "contentClasses": "mt-3 flex flex-wrap gap-3 text-sm",
-        "pillClasses": "px-3 py-1 rounded-full border border-slate-300"
+        "titleClasses": "text-xl font-bold text-slate-900 mb-3",
+        "containerClasses": "space-y-3",
+        "contentClasses": "flex flex-wrap gap-2",
+        "pillClasses": "px-3 py-1.5 rounded-md bg-slate-100 text-slate-700 text-sm font-medium"
       }
     ]
   },

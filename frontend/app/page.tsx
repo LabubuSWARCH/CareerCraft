@@ -28,7 +28,7 @@ export default async function HomePage() {
             variant="outline"
             className="w-full md:w-auto"
           >
-            <Link href="/resumes">View templates</Link>
+            <Link href="/templates">View templates</Link>
           </Button>
         </div>
       </section>

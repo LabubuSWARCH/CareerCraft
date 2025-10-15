@@ -15,6 +15,10 @@ export const LINKS = [
     href: "/",
   },
   {
+    label: "Templates",
+    href: "/templates",
+  },
+  {
     label: "Resumes",
     href: "/resumes",
   },

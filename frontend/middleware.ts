@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATH = ["/"];
+const PUBLIC_PATH = ["/", "/templates.*"];
 const AUTH_PATH = [
   "/login",
   "/register",
