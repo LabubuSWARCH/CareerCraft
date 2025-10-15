@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -19,21 +15,13 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/template-schema": [
-        "../shared/template-schema/src"
-      ],
-      "@shared/template-schema/*": [
-        "../shared/template-schema/src/*"
-      ],
-      "@/components/*": [
-        "src/components/*"
-      ],
-      "@/lib/*": [
-        "src/lib/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ]
+      "@shared/template-schema": ["../shared/template-schema/src"],
+      "@shared/template-schema/*": ["../shared/template-schema/src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/data/*": ["src/data/*"],
+      "@/providers/*": ["src/providers/*"],
+      "@/types/*": ["src/types/*"]
     },
     "esModuleInterop": true,
     "plugins": [
@@ -42,13 +30,6 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

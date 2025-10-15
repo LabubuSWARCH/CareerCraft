@@ -1,18 +1,7 @@
-import { TemplatePreviewScreen } from '@/components/TemplatePreviewScreen';
-import { fetchTemplates } from '@/lib/templates';
-import type { TemplateDefinition } from '@shared/template-schema';
-
-async function loadTemplates(): Promise<TemplateDefinition[]> {
-  try {
-    return await fetchTemplates();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
-
 export default async function HomePage() {
-  const templates = await loadTemplates();
-
-  return <TemplatePreviewScreen templates={templates} />;
+  return (
+    <main className="container mx-auto py-8 px-4">
+      <h1 className="text-4xl font-semibold">Home</h1>
+    </main>
+  );
 }

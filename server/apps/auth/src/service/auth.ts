@@ -110,7 +110,7 @@ export async function requestPasswordReset(identifier: string) {
     tokenHash,
   ]);
 
-  const resetLink = `${FRONTEND_URL}/resetpassword?token=${token}`;
+  const resetLink = `${FRONTEND_URL}/reset-password?token=${token}`;
   await publishEmail(
     user.email,
     'Password Reset Request',
