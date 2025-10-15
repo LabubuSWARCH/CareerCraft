@@ -8,9 +8,9 @@ import { ArrowLeft, FileText } from "lucide-react";
 import { TemplatePreview } from "app/(templates)/_components/template-preview-screen";
 
 interface TemplatePageProps {
-  params: {
+  params: Promise<{
     templateId: string;
-  };
+  }>;
 }
 
 async function loadTemplate(
@@ -26,7 +26,8 @@ async function loadTemplate(
 }
 
 export default async function TemplatePage({ params }: TemplatePageProps) {
-  const template = await loadTemplate(params.templateId);
+  const { templateId } = await params;
+  const template = await loadTemplate(templateId);
 
   if (!template) {
     notFound();
