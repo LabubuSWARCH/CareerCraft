@@ -162,7 +162,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       );
       if (!res.ok) {
         if (res.status === 409) {
-          throw new Error("Username already exists");
+          const errorData = await res.text();
+          if (errorData.includes("username")) {
+            throw new Error("Username already exists");
+          }
+          if (errorData.includes("email")) {
+            throw new Error("Email already exists");
+          }
         }
         if (res.status === 500) {
           throw new Error("Server error. Please try again later.");

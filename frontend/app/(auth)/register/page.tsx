@@ -29,8 +29,15 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  Dropzone,
+  DropzoneEmptyState,
+  DropzoneContent,
+} from "@/components/ui/dropzone";
+import Image from "next/image";
+import { Label } from "@/components/ui/label";
 
-const SUCCESS_DISPLAY_TIME = 1;
+const SUCCESS_DISPLAY_TIME = 5;
 const ERROR_DISPLAY_TIME = 1;
 
 const textTransition = {
@@ -52,6 +59,10 @@ export default function RegisterPage() {
   const router = useRouter();
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [avatarFiles, setAvatarFiles] = useState<File[]>([]);
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>();
+  const [avatarError, setAvatarError] = useState<string | null>(null);
+  const [redirectTimer, setRedirectTimer] = useState(SUCCESS_DISPLAY_TIME);
 
   const form = useForm<RegisterData>({
     resolver: zodResolver(registerDataSchema),
@@ -68,12 +79,26 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterData) => {
     try {
-      await registerMutation.mutateAsync(data);
+      await registerMutation.mutateAsync({
+        ...data,
+        profile_picture: avatarPreview,
+      });
 
       setShowSuccess(true);
+      setRedirectTimer(SUCCESS_DISPLAY_TIME);
 
+      const interval = setInterval(
+        () =>
+          setRedirectTimer((t) => {
+            if (t === 1) {
+              clearInterval(interval);
+            }
+            return t - 1;
+          }),
+        1000
+      );
       setTimeout(() => {
-        router.push("/");
+        router.push("/login");
       }, SUCCESS_DISPLAY_TIME * 1000);
     } catch (error) {
       setShowError(true);
@@ -82,9 +107,36 @@ export default function RegisterPage() {
         setShowError(false);
       }, ERROR_DISPLAY_TIME * 1000);
 
+      if (error instanceof Error && error.message.includes("Username")) {
+        form.setError("username", {
+          message: error.message,
+        });
+        return;
+      }
+      if (error instanceof Error && error.message.includes("Email")) {
+        form.setError("email", {
+          message: error.message,
+        });
+        return;
+      }
+
       form.setError("root", {
         message: (error as Error).message,
       });
+    }
+  };
+
+  const handleDrop = (files: File[]) => {
+    setAvatarFiles(files);
+    setAvatarError(null);
+    if (files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (typeof e.target?.result === "string") {
+          setAvatarPreview(e.target?.result);
+        }
+      };
+      reader.readAsDataURL(files[0]);
     }
   };
 
@@ -97,9 +149,44 @@ export default function RegisterPage() {
             Enter your information to create a new account.
           </CardDescription>
         </CardHeader>
-        <CardContent className="pb-2">
+        <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="flex flex-col space-y-2">
+                <Label className={cn(avatarError && "text-destructive")}>
+                  Profile Picture
+                </Label>
+                <Dropzone
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg"] }}
+                  onDrop={handleDrop}
+                  onError={(e) => {
+                    setAvatarFiles([]);
+                    setAvatarError(e.message);
+                  }}
+                  src={avatarFiles}
+                  className="size-32 rounded-full mx-auto p-0"
+                  maxSize={5 * 1024 * 1024} // 5MB
+                >
+                  <DropzoneEmptyState />
+                  <DropzoneContent>
+                    {avatarPreview ? (
+                      <div className="size-full relative">
+                        <Image
+                          alt="Preview"
+                          className="absolute top-0 left-0 h-full w-full object-cover"
+                          src={avatarPreview}
+                          fill
+                        />
+                      </div>
+                    ) : null}
+                  </DropzoneContent>
+                </Dropzone>
+                {avatarError ? (
+                  <p className="text-[0.8rem] font-medium text-destructive">
+                    {avatarError}
+                  </p>
+                ) : null}
+              </div>
               <FormField
                 name="username"
                 control={form.control}
@@ -107,7 +194,7 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel>Username *</FormLabel>
                     <FormControl>
-                      <Input placeholder="jane.doe" {...field} />
+                      <Input placeholder="e.g. careerCraft" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -122,7 +209,7 @@ export default function RegisterPage() {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Your password"
+                        placeholder="password"
                         {...field}
                       />
                     </FormControl>
@@ -139,7 +226,7 @@ export default function RegisterPage() {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="Confirm your password"
+                        placeholder="password"
                         {...field}
                       />
                     </FormControl>
@@ -152,9 +239,9 @@ export default function RegisterPage() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>Full Name *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Jane Doe" {...field} />
+                      <Input placeholder="John Watson" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -165,11 +252,11 @@ export default function RegisterPage() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email *</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="jane.doe@example.com"
+                        placeholder="john.watson@example.com"
                         {...field}
                       />
                     </FormControl>
@@ -182,9 +269,9 @@ export default function RegisterPage() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Phone *</FormLabel>
                     <FormControl>
-                      <Input placeholder="+1 234 567 8900" {...field} />
+                      <Input placeholder="01 2345 6789" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,7 +282,7 @@ export default function RegisterPage() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Address *</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="123 Main St, City, Country"
@@ -267,11 +354,31 @@ export default function RegisterPage() {
             variant="link"
             className="w-full hover:no-underline group"
           >
-            <Link href="/login">
-              Already have an account?{" "}
-              <span className="underline text-secondary-foreground group-hover:no-underline">
-                Login here
-              </span>
+            <Link href="/login" className="text-sm">
+              <AnimatePresence mode="wait">
+                {showSuccess && redirectTimer < SUCCESS_DISPLAY_TIME - 1 ? (
+                  <motion.div
+                    key="redirecting"
+                    {...textTransition}
+                    className="flex items-center gap-2"
+                  >
+                    <Spinner />
+                    Redirecting to login in {redirectTimer}{" "}
+                    {redirectTimer === 1 ? "second" : "seconds"}...
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="back-to-login"
+                    {...textTransition}
+                    className="flex items-center gap-2"
+                  >
+                    Already have an account?{" "}
+                    <span className="underline text-secondary-foreground group-hover:no-underline">
+                      Login here
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Link>
           </Button>
           {form.formState.errors.root ? (

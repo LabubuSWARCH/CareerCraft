@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
         <CardHeader>
           <CardTitle>Forgot Password</CardTitle>
           <CardDescription>
-            Enter your username to receive a password reset link.
+            Enter your username or email to receive a password reset link.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -110,9 +110,9 @@ export default function ForgotPasswordPage() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Username/Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="jane.doe" {...field} />
+                      <Input placeholder="john.watson@example.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -33,6 +33,9 @@ router.post('/register', async (req, res) => {
     res.status(201).json(user);
   } catch (err: unknown) {
     console.log(err);
+    if (err instanceof Error && err.message.includes('already exists')) {
+      return res.status(409).json({ error: getErrorMessage(err) });
+    }
     res.status(500).json({ error: getErrorMessage(err) });
   }
 });

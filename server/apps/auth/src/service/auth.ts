@@ -25,6 +25,17 @@ interface RegisterUserInput {
 }
 
 export async function registerUser(data: RegisterUserInput): Promise<User> {
+  const userRes = await query(`SELECT id, email FROM users WHERE username = $1`, [data.username]);
+  const user = userRes.rows[0];
+  if (user) {
+    throw new Error('This username is already exists');
+  }
+  const emailRes = await query(`SELECT id, username FROM users WHERE email = $1`, [data.email]);
+  const emailUser = emailRes.rows[0];
+  if (emailUser) {
+    throw new Error('This email already exists');
+  }
+
   const hash = await bcrypt.hash(data.password, 10);
 
   const res = await query(
