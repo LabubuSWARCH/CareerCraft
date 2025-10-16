@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "../../../../src/components/ui/card";
 import { MOCK_RESUME } from "@/data/mock-resume";
-import { TemplateRenderer } from "./template-renderer";
+import { TemplateRenderer } from "../../../../src/components/template-renderer";
 import { Badge } from "@/components/ui/badge";
 
 interface TemplateCardProps {

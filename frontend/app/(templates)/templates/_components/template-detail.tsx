@@ -8,7 +8,7 @@ import { MOCK_RESUME } from "@/data/mock-resume";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { notFound } from "next/navigation";
-import { TemplateRenderer } from "./template-renderer";
+import { TemplateRenderer } from "../../../../src/components/template-renderer";
 
 interface TemplateDetailProps {
   templateId: string;
@@ -47,7 +47,7 @@ export function TemplateDetail({ templateId, clickable }: TemplateDetailProps) {
           </div>
         </div>
         <Button asChild size="lg" className="w-full md:w-auto">
-          <Link href="/resumes">
+          <Link href={`/resumes/new?template=${template.templateId}`}>
             <FileText className="size-4 mr-2" />
             Use This Template
           </Link>
@@ -62,14 +62,12 @@ export function TemplateDetail({ templateId, clickable }: TemplateDetailProps) {
         ))}
       </div>
 
-      <div className="w-full flex justify-center">
-        <div className="w-full max-w-[210mm] aspect-[210/297] overflow-hidden">
-          <TemplateRenderer
-            schema={template.schemaJson}
-            data={MOCK_RESUME}
-            clickable={clickable}
-          />
-        </div>
+      <div className="max-w-fit mx-auto w-full">
+        <TemplateRenderer
+          schema={template.schemaJson}
+          data={MOCK_RESUME}
+          clickable={clickable}
+        />
       </div>
     </>
   );
