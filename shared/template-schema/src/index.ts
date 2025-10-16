@@ -42,11 +42,8 @@ export interface ResumeData {
 }
 
 export interface TemplateLayout {
-  frameStyle: CSSProperties;
-  cardStyle: CSSProperties;
   rootStyle: CSSProperties;
-  defaultPaddingStyle?: CSSProperties;
-  compactPaddingStyle?: CSSProperties;
+  paddingStyle: CSSProperties;
   header: {
     containerStyle: CSSProperties;
     nameStyle: CSSProperties;

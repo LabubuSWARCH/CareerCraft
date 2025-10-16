@@ -9,41 +9,21 @@
   "schemaJson": {
     "componentId": "modern",
     "layout": {
-      "frameStyle": {
-        "display": "flex",
-        "alignItems": "flex-start",
-        "justifyContent": "center",
-        "minHeight": "100vh",
-        "paddingTop": "2rem",
-        "paddingBottom": "2rem"
-      },
-      "cardStyle": {
-        "boxShadow": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-        "borderRadius": "0.5rem",
-        "overflow": "hidden"
-      },
       "rootStyle": {
         "width": "210mm",
         "minHeight": "297mm",
         "backgroundColor": "#ffffff",
         "color": "#0f172a"
       },
-      "defaultPaddingStyle": {
-        "padding": "3rem"
-      },
-      "compactPaddingStyle": {
+      "paddingStyle": {
         "padding": "2.5rem"
       },
       "header": {
         "containerStyle": {
           "borderLeftWidth": "6px",
           "borderColor": "#2563eb",
-          "paddingLeft": "1.5rem",
-          "paddingTop": "0.5rem",
-          "paddingBottom": "0.5rem",
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.5rem"
-          }
+          "marginBottom": "1.5rem",
+          "paddingLeft": "1rem"
         },
         "nameStyle": {
           "fontSize": "3rem",
@@ -53,13 +33,11 @@
         },
         "titleStyle": {
           "fontSize": "1.125rem",
-          "color": "#475569",
-          "marginTop": "0.5rem"
+          "color": "#475569"
         }
       },
       "body": {
         "containerStyle": {
-          "marginTop": "2rem",
           "display": "grid",
           "gridTemplateColumns": "repeat(3, minmax(0, 1fr))",
           "gap": "2rem"
@@ -69,10 +47,7 @@
             "id": "sidebar",
             "span": 1,
             "containerStyle": {
-              "gridColumn": "span 1 / span 1",
-              "& > :not(:lastChild)": {
-                "marginBlockEnd": "1.75rem"
-              }
+              "gridColumn": "span 1 / span 1"
             },
             "sections": ["contact", "skills"]
           },
@@ -80,10 +55,7 @@
             "id": "main",
             "span": 2,
             "containerStyle": {
-              "gridColumn": "span 2 / span 2",
-              "& > :not(:lastChild)": {
-                "marginBlockEnd": "1.75rem"
-              }
+              "gridColumn": "span 2 / span 2"
             },
             "sections": ["summary", "experience", "education", "projects"]
           }
@@ -96,23 +68,16 @@
         "type": "contact",
         "title": "Contact",
         "titleStyle": {
-          "fontSize": "0.875rem",
+          "fontSize": "1rem",
           "fontWeight": "700",
           "textTransform": "uppercase",
           "letterSpacing": "0.05em",
-          "color": "#2563eb",
-          "marginBottom": "0.75rem"
+          "color": "#2563eb"
         },
         "containerStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.75rem"
-          }
+          "marginBottom": "1rem"
         },
-        "contentStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.5rem"
-          }
-        },
+        "contentStyle": {},
         "itemStyle": {
           "fontSize": "0.875rem",
           "color": "#334155",
@@ -125,18 +90,13 @@
         "type": "skills",
         "title": "Skills",
         "titleStyle": {
-          "fontSize": "0.875rem",
+          "fontSize": "1rem",
           "fontWeight": "700",
           "textTransform": "uppercase",
           "letterSpacing": "0.05em",
-          "color": "#2563eb",
-          "marginBottom": "0.75rem"
+          "color": "#2563eb"
         },
-        "containerStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.75rem"
-          }
-        },
+        "containerStyle": {},
         "contentStyle": {
           "display": "flex",
           "flexWrap": "wrap",
@@ -146,10 +106,6 @@
           "fontSize": "0.75rem",
           "backgroundColor": "#f1f5f9",
           "color": "#334155",
-          "paddingLeft": "0.625rem",
-          "paddingRight": "0.625rem",
-          "paddingTop": "0.25rem",
-          "paddingBottom": "0.25rem",
           "borderRadius": "0.375rem",
           "fontWeight": "500"
         }
@@ -159,17 +115,14 @@
         "type": "summary",
         "title": "Profile",
         "titleStyle": {
-          "fontSize": "0.875rem",
+          "fontSize": "1rem",
           "fontWeight": "700",
           "textTransform": "uppercase",
           "letterSpacing": "0.05em",
-          "color": "#2563eb",
-          "marginBottom": "0.75rem"
+          "color": "#2563eb"
         },
         "containerStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.75rem"
-          }
+          "marginBottom": "1rem"
         },
         "contentStyle": {
           "fontSize": "0.875rem",
@@ -182,23 +135,16 @@
         "type": "experience",
         "title": "Experience",
         "titleStyle": {
-          "fontSize": "0.875rem",
+          "fontSize": "1rem",
           "fontWeight": "700",
           "textTransform": "uppercase",
           "letterSpacing": "0.05em",
-          "color": "#2563eb",
-          "marginBottom": "1rem"
+          "color": "#2563eb"
         },
         "containerStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "1.25rem"
-          }
+          "marginBottom": "1rem"
         },
-        "itemStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.5rem"
-          }
-        },
+        "itemStyle": {},
         "headerStyle": {
           "display": "flex",
           "justifyContent": "space-between",
@@ -221,13 +167,11 @@
         },
         "listStyle": {
           "listStyleType": "disc",
-          "marginLeft": "1.25rem",
           "fontSize": "0.875rem",
           "color": "#334155",
           "lineHeight": "1.625",
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "0.25rem"
-          }
+          "paddingLeft": "1.25rem",
+          "marginBottom": "0.5rem"
         }
       },
       {
@@ -235,17 +179,14 @@
         "type": "education",
         "title": "Education",
         "titleStyle": {
-          "fontSize": "0.875rem",
+          "fontSize": "1rem",
           "fontWeight": "700",
           "textTransform": "uppercase",
           "letterSpacing": "0.05em",
-          "color": "#2563eb",
-          "marginBottom": "1rem"
+          "color": "#2563eb"
         },
         "containerStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "1rem"
-          }
+          "marginBottom": "1rem"
         },
         "headerStyle": {
           "display": "flex",
@@ -265,8 +206,7 @@
         },
         "detailsStyle": {
           "fontSize": "0.875rem",
-          "color": "#475569",
-          "marginTop": "0.25rem"
+          "color": "#475569"
         }
       },
       {
@@ -274,18 +214,13 @@
         "type": "projects",
         "title": "Projects",
         "titleStyle": {
-          "fontSize": "0.875rem",
+          "fontSize": "1rem",
           "fontWeight": "700",
           "textTransform": "uppercase",
           "letterSpacing": "0.05em",
-          "color": "#2563eb",
-          "marginBottom": "1rem"
+          "color": "#2563eb"
         },
-        "containerStyle": {
-          "& > :not(:lastChild)": {
-            "marginBlockEnd": "1rem"
-          }
-        },
+        "containerStyle": {},
         "nameStyle": {
           "fontSize": "1rem",
           "fontWeight": "600",
@@ -297,8 +232,7 @@
         },
         "descriptionStyle": {
           "fontSize": "0.875rem",
-          "color": "#475569",
-          "marginTop": "0.25rem"
+          "color": "#475569"
         },
         "toggleField": "showProjects"
       }

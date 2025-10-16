@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../src/components/ui/card";
+} from "../../../../src/components/ui/card";
 import { MOCK_RESUME } from "@/data/mock-resume";
 import { TemplateRenderer } from "./template-renderer";
 import { Badge } from "@/components/ui/badge";

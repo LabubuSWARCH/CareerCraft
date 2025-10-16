@@ -1,4 +1,4 @@
-import { TemplatesList } from "app/(templates)/_components/templates-list";
+import { TemplatesList } from "./_components/templates-list";
 
 export default function TemplatesPage() {
   return (
