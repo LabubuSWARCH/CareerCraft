@@ -6,8 +6,8 @@ export interface ResumeExperience {
   company: string;
   role: string;
   start: string;
-  end: string;
-  bullets: string[];
+  end?: string;
+  bullets?: string[];
 }
 
 export interface ResumeEducation {
@@ -15,7 +15,7 @@ export interface ResumeEducation {
   school: string;
   degree: string;
   start: string;
-  end: string;
+  end?: string;
   details?: string;
 }
 

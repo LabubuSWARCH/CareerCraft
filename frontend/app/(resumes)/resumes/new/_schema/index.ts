@@ -1,16 +1,6 @@
 import { z } from "zod";
 
-export const ContactFieldEnum = z.enum([
-  "email",
-  "phone",
-  "location",
-  "website",
-]);
-export type ContactFieldEnum = z.infer<typeof ContactFieldEnum>;
-
-export type ContactField = z.infer<typeof ContactFieldEnum>;
-
-export const ResumeExperienceSchema = z.object({
+export const ResumeExperienceFormSchema = z.object({
   id: z.string(),
   company: z.string().min(1, "Company is required"),
   role: z.string().min(1, "Role is required"),
@@ -18,9 +8,9 @@ export const ResumeExperienceSchema = z.object({
   end: z.string().optional(),
   bullets: z.array(z.string()).optional(),
 });
-export type ResumeExperience = z.infer<typeof ResumeExperienceSchema>;
+export type ResumeExperienceForm = z.infer<typeof ResumeExperienceFormSchema>;
 
-export const ResumeEducationSchema = z.object({
+export const ResumeEducationFormSchema = z.object({
   id: z.string(),
   school: z.string().min(1, "School is required"),
   degree: z.string().min(1, "Degree is required"),
@@ -28,17 +18,17 @@ export const ResumeEducationSchema = z.object({
   end: z.string().optional(),
   details: z.string().optional(),
 });
-export type ResumeEducation = z.infer<typeof ResumeEducationSchema>;
+export type ResumeEducationForm = z.infer<typeof ResumeEducationFormSchema>;
 
-export const ResumeProjectSchema = z.object({
+export const ResumeProjectFormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, "Project name is required"),
   description: z.string().min(1, "Project description is required"),
   link: z.url("Invalid URL").optional(),
 });
-export type ResumeProject = z.infer<typeof ResumeProjectSchema>;
+export type ResumeProjectForm = z.infer<typeof ResumeProjectFormSchema>;
 
-export const ResumeDataSchema = z.object({
+export const ResumeFormDataSchema = z.object({
   name: z.string().min(1, "Name is required"),
   title: z.string().min(1, "Title is required"),
   email: z.email("Invalid email address"),
@@ -47,9 +37,9 @@ export const ResumeDataSchema = z.object({
   website: z.url("Invalid URL").optional(),
   summary: z.string().optional(),
   skills: z.array(z.string()).min(1, "At least one skill is required"),
-  experience: z.array(ResumeExperienceSchema).optional(),
-  education: z.array(ResumeEducationSchema).optional(),
-  projects: z.array(ResumeProjectSchema).optional(),
-  showProjects: z.boolean().optional(),
+  experience: z.array(ResumeExperienceFormSchema).optional(),
+  education: z.array(ResumeEducationFormSchema).optional(),
+  projects: z.array(ResumeProjectFormSchema).optional(),
+  showProjects: z.boolean(),
 });
-export type ResumeData = z.infer<typeof ResumeDataSchema>;
+export type ResumeFormData = z.infer<typeof ResumeFormDataSchema>;

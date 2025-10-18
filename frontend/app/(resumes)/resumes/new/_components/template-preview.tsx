@@ -1,6 +1,6 @@
 import { useTemplate } from "@/hooks/use-templates";
 import { TemplateRenderer } from "@/components/template-renderer";
-import { MOCK_RESUME } from "@/data/mock-resume";
+import { useResumeForm } from "../_providers/resume-form-provider";
 
 interface TemplatePreviewProps {
   templateId: string;
@@ -8,6 +8,9 @@ interface TemplatePreviewProps {
 
 export function TemplatePreview({ templateId }: TemplatePreviewProps) {
   const template = useTemplate(templateId);
+  const { form } = useResumeForm();
+
+  const formData = form.watch();
 
   if (template.isLoading) {
     return <div>Loading...</div>;
@@ -21,11 +24,19 @@ export function TemplatePreview({ templateId }: TemplatePreviewProps) {
     return <div>No template found.</div>;
   }
 
+  const resumeData = {
+    ...formData,
+    experience: formData.experience ?? [],
+    education: formData.education ?? [],
+    projects: formData.projects ?? [],
+    skills: formData.skills ?? [],
+  };
+
   return (
     <div className="max-w-fit mx-auto w-full">
       <TemplateRenderer
         schema={template.data.schemaJson}
-        data={MOCK_RESUME}
+        data={resumeData}
         clickable={true}
       />
     </div>
