@@ -15,13 +15,15 @@ import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { useResumeForm } from "../_providers/resume-form-provider";
-import { useFieldArray } from "react-hook-form";
+import { useResumeForm as useNewResumeForm } from "../_providers/resume-form-provider";
+import { useEditResumeForm } from "../../[resumeId]/_providers/edit-resume-form-provider";
+import { SubmitErrorHandler, useFieldArray } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { ExperienceFields } from "./experience-fields";
 import { EducationFields } from "./education-fields";
 import { ProjectFields } from "./project-fields";
+import { ResumeFormData } from "../_schema";
 
 type FormSection =
   | "personal"
@@ -65,10 +67,44 @@ const createEmptyProject = () => ({
   link: "",
 });
 
+function useResumeFormHook() {
+  try {
+    return useNewResumeForm();
+  } catch {
+    return useEditResumeForm();
+  }
+}
+
 export function ResumeForm() {
-  const { form, onSubmit } = useResumeForm();
+  const { form, onSubmit } = useResumeFormHook();
   const [activeSection, setActiveSection] = useState<FormSection>("personal");
   const [showWebsite, setShowWebsite] = useState(false);
+
+  const onInvalid: SubmitErrorHandler<ResumeFormData> = (errors) => {
+    if (errors.resumeTitle) {
+      return;
+    }
+
+    if (
+      errors.name ||
+      errors.title ||
+      errors.email ||
+      errors.phone ||
+      errors.location
+    ) {
+      setActiveSection("personal");
+    } else if (errors.summary) {
+      setActiveSection("summary");
+    } else if (errors.experience) {
+      setActiveSection("experience");
+    } else if (errors.education) {
+      setActiveSection("education");
+    } else if (errors.projects) {
+      setActiveSection("projects");
+    } else if (errors.skills) {
+      setActiveSection("skills");
+    }
+  };
 
   const {
     fields: experienceFields,
@@ -110,7 +146,7 @@ export function ResumeForm() {
       const currentSkills = form.getValues("skills") || [];
       form.setValue(
         "skills",
-        currentSkills.filter((_, i) => i !== index),
+        currentSkills.filter((_skill: string, i: number) => i !== index),
         { shouldValidate: true }
       );
     },
@@ -397,7 +433,7 @@ export function ResumeForm() {
             No skills added yet. Click "Add Skill" to get started.
           </p>
         ) : (
-          skills.map((skill, index) => (
+          skills.map((skill: string, index: number) => (
             <div key={index} className="flex gap-2">
               <div className="flex-1">
                 <Input
@@ -442,32 +478,51 @@ export function ResumeForm() {
 
   return (
     <div className="w-full space-y-6">
-      <div className="sticky top-0 z-10 bg-background pb-4">
-        <ButtonGroup className="w-full flex-wrap">
-          {FORM_SECTIONS.map((section) => (
-            <Button
-              key={section.id}
-              type="button"
-              variant={activeSection === section.id ? "default" : "outline"}
-              onClick={() => setActiveSection(section.id)}
-              className="flex-1"
-            >
-              {section.label}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </div>
-
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+          className="space-y-6"
+        >
+          <FormField
+            control={form.control}
+            name="resumeTitle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Resume Title</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g., Software Engineer Resume 2025"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Give your resume a descriptive title to help you identify it
+                  later.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="sticky top-0 z-10 bg-background pb-4">
+            <ButtonGroup className="w-full flex-wrap">
+              {FORM_SECTIONS.map((section) => (
+                <Button
+                  key={section.id}
+                  type="button"
+                  variant={activeSection === section.id ? "default" : "outline"}
+                  onClick={() => setActiveSection(section.id)}
+                  className="flex-1"
+                >
+                  {section.label}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+
           {renderActiveSection()}
 
-          <Button
-            type="submit"
-            size="lg"
-            className="w-full"
-            onSubmit={form.handleSubmit(onSubmit)}
-          >
+          <Button type="submit" size="lg" className="w-full">
             Save Resume
           </Button>
         </form>

@@ -7,7 +7,7 @@ const AUTH_PATH = [
   "/forgot-password",
   "/reset-password",
 ];
-const PROTECTED_PATH = ["/resumes.*"];
+const PROTECTED_PATH = ["/resumes.*", "/profile.*"];
 
 export function middleware(request: NextRequest) {
   const isAuthPath = AUTH_PATH.some((path) =>
@@ -43,7 +43,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.rewrite(new URL("/404", request.url));
 }
 
 export const config = {

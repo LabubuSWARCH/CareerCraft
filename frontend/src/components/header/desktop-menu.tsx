@@ -38,7 +38,7 @@ export default function DesktopMenu({ user, onLogout }: MenuProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          <AvatarImage src={user.profile_picture} alt={user.username} />
+          <AvatarImage src={user.profile_picture} alt={user.full_name} />
           <AvatarFallback>
             {user.full_name
               .split(" ")
@@ -49,8 +49,11 @@ export default function DesktopMenu({ user, onLogout }: MenuProps) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user.full_name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/profile">Profile</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={onLogout}>
           <LogOut />
           Log out

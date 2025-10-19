@@ -42,7 +42,7 @@ export function MobileMenu({ user, onLogout }: MenuProps) {
           {user ? (
             <div className="flex items-center gap-3 pb-4 border-b">
               <Avatar>
-                <AvatarImage src={user.profile_picture} alt={user.username} />
+                <AvatarImage src={user.profile_picture} alt={user.full_name} />
                 <AvatarFallback>
                   {user.full_name
                     .split(" ")

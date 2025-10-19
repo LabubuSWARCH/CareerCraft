@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { File, X } from "lucide-react";
 import Link from "next/link";
 import { useResumes } from "@/hooks/use-resume";
+import { ResumeCard } from "./resume-card";
 
 export function ResumesList() {
   const { data: resumes, isPending, error } = useResumes();
@@ -81,9 +82,9 @@ export function ResumesList() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {/* {resumes.map((resume) => (
-				<ResumeCard key={resume.id} resume={resume} />
-      ))} */}
+      {resumes.map((resume) => (
+        <ResumeCard key={resume.id} resume={resume} />
+      ))}
     </div>
   );
 }

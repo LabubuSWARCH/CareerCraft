@@ -29,17 +29,18 @@ export const ResumeProjectFormSchema = z.object({
 export type ResumeProjectForm = z.infer<typeof ResumeProjectFormSchema>;
 
 export const ResumeFormDataSchema = z.object({
+  resumeTitle: z.string().min(1, "Resume title is required"),
   name: z.string().min(1, "Name is required"),
   title: z.string().min(1, "Title is required"),
   email: z.email("Invalid email address"),
   phone: z.string().min(1, "Phone number is required"),
   location: z.string().min(1, "Location is required"),
-  website: z.url("Invalid URL").optional(),
+  website: z.string().optional(),
   summary: z.string().optional(),
-  skills: z.array(z.string()).min(1, "At least one skill is required"),
-  experience: z.array(ResumeExperienceFormSchema).optional(),
-  education: z.array(ResumeEducationFormSchema).optional(),
-  projects: z.array(ResumeProjectFormSchema).optional(),
+  skills: z.array(z.string()),
+  experience: z.array(ResumeExperienceFormSchema),
+  education: z.array(ResumeEducationFormSchema),
+  projects: z.array(ResumeProjectFormSchema),
   showProjects: z.boolean(),
 });
 export type ResumeFormData = z.infer<typeof ResumeFormDataSchema>;
