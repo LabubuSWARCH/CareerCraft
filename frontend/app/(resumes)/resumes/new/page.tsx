@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { TemplatePreview } from "./_components/template-preview";
 import { ResumeForm } from "./_components/resume-form";
@@ -34,7 +35,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 const DEFAULT_TEMPLATE_ID = "classic";
 const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
 
-export default function NewResumePage() {
+function NewResumePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const templateId = searchParams.get("template") ?? DEFAULT_TEMPLATE_ID;
@@ -158,5 +159,13 @@ export default function NewResumePage() {
         </div>
       </ResumeFormProvider>
     </main>
+  );
+}
+
+export default function NewResumePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewResumePageContent />
+    </Suspense>
   );
 }

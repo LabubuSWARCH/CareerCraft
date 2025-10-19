@@ -23,7 +23,7 @@ export function ExperienceSection({ section, data }: ExperienceSectionProps) {
                 {exp.start} - {exp.end}
               </div>
             </div>
-            {exp.bullets?.length > 0 && (
+            {exp.bullets && exp.bullets.length > 0 && (
               <ul style={section.listStyle}>
                 {exp.bullets.map((bullet, idx) => (
                   <li key={idx}>{bullet}</li>
