@@ -161,3 +161,34 @@ export async function resetPassword(token: string, newPassword: string) {
 
   return { message: 'Password successfully updated' };
 }
+
+export interface UpdateUserInput {
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  profile_picture?: string;
+}
+
+export async function updateUserProfile(token: string, data: UpdateUserInput): Promise<User> {
+  const hashedToken = hashSessionToken(token);
+  const userId = await getSession(hashedToken);
+  if (!userId) throw new Error('Invalid session');
+
+  // Build dynamic SQL query depending on provided fields
+  const entries = Object.entries(data).filter(([, value]) => value !== undefined);
+  if (entries.length === 0) throw new Error('No fields to update');
+
+  const setClauses = entries.map(([key], i) => `${key} = $${i + 2}`);
+  const values = entries.map(([, value]) => value);
+
+  const queryStr = `
+    UPDATE users
+    SET ${setClauses.join(', ')}, updated_at = NOW()
+    WHERE id = $1
+    RETURNING id, username, email, full_name, phone, address, profile_picture, created_at, updated_at
+  `;
+
+  const res = await query(queryStr, [userId, ...values]);
+  return res.rows[0];
+}

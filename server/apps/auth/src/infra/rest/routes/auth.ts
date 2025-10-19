@@ -6,6 +6,7 @@ import {
   validateSession,
   requestPasswordReset,
   resetPassword,
+  updateUserProfile,
 } from '../../../service/auth';
 import { COOKIE_DOMAIN, NODE_ENV } from '../../../config';
 
@@ -93,6 +94,28 @@ router.post('/reset', async (req, res) => {
     const result = await resetPassword(token, newPassword);
     res.json(result);
   } catch (err: unknown) {
+    res.status(400).json({ error: getErrorMessage(err) });
+  }
+});
+
+router.patch('/profile', async (req, res) => {
+  try {
+    const token = req.cookies.SESSION_TOKEN;
+    if (!token) return res.status(401).json({ error: 'Not authenticated' });
+
+    const { full_name, email, phone, address, profile_picture } = req.body;
+
+    const updatedUser = await updateUserProfile(token, {
+      full_name,
+      email,
+      phone,
+      address,
+      profile_picture,
+    });
+
+    res.json(updatedUser);
+  } catch (err: unknown) {
+    console.error(err);
     res.status(400).json({ error: getErrorMessage(err) });
   }
 });
