@@ -55,7 +55,7 @@ router.post('/', requireAuth, requireRole('admin'), async (req, res) => {
   }
 });
 
-router.put('/:templateId', requireAuth, async (req, res) => {
+router.put('/:templateId', requireAuth, requireRole('admin'), async (req, res) => {
   try {
     const template = await updateTemplate(req.params.templateId, req.body);
     if (!template) return res.status(404).json({ error: 'Template not found' });
