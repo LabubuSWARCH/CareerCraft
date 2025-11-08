@@ -1,7 +1,7 @@
 import { query } from '../infra/db/postgres';
 import bcrypt from 'bcrypt';
 import { setSession, getSession, deleteSession } from '../infra/db/redis';
-import { User } from '../model';
+import { User, UserRole } from '../model';
 import { randomBytes, createHash } from 'crypto';
 import { publishEmail } from '../infra/rmq';
 import { FRONTEND_URL } from '../config';
@@ -22,6 +22,7 @@ interface RegisterUserInput {
   phone?: string;
   address?: string;
   profile_picture?: string;
+  role?: UserRole;
 }
 
 export async function registerUser(data: RegisterUserInput): Promise<User> {
@@ -37,11 +38,16 @@ export async function registerUser(data: RegisterUserInput): Promise<User> {
   }
 
   const hash = await bcrypt.hash(data.password, 10);
+  const validRoles = ['user', 'admin'] as const;
+  const roleInput = (data.role ?? '').toString().toLowerCase();
+  const role: UserRole = (validRoles as readonly string[]).includes(roleInput)
+    ? (roleInput as UserRole)
+    : 'user';
 
   const res = await query(
-    `INSERT INTO users(username, password, full_name, email, phone, address, profile_picture)
-     VALUES($1, $2, $3, $4, $5, $6, $7)
-     RETURNING id, username, full_name, email, phone, address, profile_picture, created_at, updated_at`,
+    `INSERT INTO users(username, password, full_name, email, phone, address, profile_picture, role)
+     VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+     RETURNING id, username, full_name, email, phone, address, profile_picture, created_at, updated_at, role`,
     [
       data.username,
       hash,
@@ -50,10 +56,12 @@ export async function registerUser(data: RegisterUserInput): Promise<User> {
       data.phone,
       data.address,
       data.profile_picture,
+      role,
     ],
   );
 
-  return res.rows[0];
+  const row = res.rows[0];
+  return { ...row, role };
 }
 
 export async function loginUser(
@@ -70,6 +78,7 @@ export async function loginUser(
   const token = generateSessionToken();
   const hashedToken = hashSessionToken(token);
   await setSession(hashedToken, user.id);
+  const role: UserRole = (user.role ?? 'user') as UserRole;
 
   return {
     user: {
@@ -82,6 +91,7 @@ export async function loginUser(
       profile_picture: user.profile_picture,
       created_at: user.created_at,
       updated_at: user.updated_at,
+      role,
     },
     token,
   };
@@ -92,12 +102,15 @@ export async function validateSession(token: string): Promise<User | null> {
   const userId = await getSession(hashedToken);
   if (!userId) return null;
   const res = await query(
-    `SELECT id, username, email, full_name, phone, address, profile_picture, created_at, updated_at
+    `SELECT id, username, email, full_name, phone, address, profile_picture, created_at, updated_at, role
      FROM users
      WHERE id=$1`,
     [userId],
   );
-  return res.rows[0] || null;
+  const row = res.rows[0];
+  if (!row) return null;
+
+  return { ...row, role: (row.role ?? 'user') as UserRole };
 }
 
 export async function logoutSession(token: string) {
@@ -186,9 +199,10 @@ export async function updateUserProfile(token: string, data: UpdateUserInput): P
     UPDATE users
     SET ${setClauses.join(', ')}, updated_at = NOW()
     WHERE id = $1
-    RETURNING id, username, email, full_name, phone, address, profile_picture, created_at, updated_at
+    RETURNING id, username, email, full_name, phone, address, profile_picture, created_at, updated_at, role
   `;
 
   const res = await query(queryStr, [userId, ...values]);
-  return res.rows[0];
+  const row = res.rows[0];
+  return { ...row, role: (row.role ?? 'user') as UserRole };
 }

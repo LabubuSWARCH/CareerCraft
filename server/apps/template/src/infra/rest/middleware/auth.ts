@@ -35,3 +35,27 @@ export async function requireAuth(req: AuthedRequest, res: Response, next: NextF
     return res.status(503).json({ error: 'Authentication service unavailable' });
   }
 }
+
+type UserRole = 'admin' | 'user';
+
+function normalizeRole(role?: string): UserRole | undefined {
+  if (role === 'admin' || role === 'user') return role;
+  return undefined;
+}
+
+export function requireRole(roles: UserRole | UserRole[]) {
+  const allowed = Array.isArray(roles) ? roles : [roles];
+
+  return function enforceRole(req: AuthedRequest, res: Response, next: NextFunction) {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    const role = normalizeRole(req.user.role);
+    if (!role || !allowed.includes(role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    return next();
+  };
+}

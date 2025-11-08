@@ -17,9 +17,16 @@ function getErrorMessage(err: unknown): string {
 
 const router = Router();
 
+const ALLOWED_ROLES = new Set(['admin', 'user']);
+
 router.post('/register', async (req, res) => {
   try {
-    const { username, password, full_name, email, phone, address, profile_picture } = req.body;
+    const { username, password, full_name, email, phone, address, profile_picture, role } =
+      req.body;
+
+    if (role && !ALLOWED_ROLES.has(role)) {
+      return res.status(400).json({ error: 'Invalid role. Allowed values: admin, user' });
+    }
 
     const user = await registerUser({
       username,
@@ -29,6 +36,7 @@ router.post('/register', async (req, res) => {
       phone,
       address,
       profile_picture,
+      role,
     });
 
     res.status(201).json(user);
