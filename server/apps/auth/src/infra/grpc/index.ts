@@ -42,6 +42,7 @@ export function startGrpcServer() {
         profilePicture: user.profile_picture || '',
         createdAt: user.created_at ? new Date(user.created_at) : undefined,
         updatedAt: user.updated_at ? new Date(user.updated_at) : undefined,
+        role: user.role,
       });
     },
   });

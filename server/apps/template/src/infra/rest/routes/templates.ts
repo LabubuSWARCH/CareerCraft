@@ -6,7 +6,7 @@ import {
   updateTemplate,
   deleteTemplate,
 } from '../../../service/template';
-import { requireAuth } from '../middleware/auth';
+import { requireAuth, requireRole } from '../middleware/auth';
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router.get('/:templateId', async (req, res) => {
   res.json(template);
 });
 
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, requireRole('admin'), async (req, res) => {
   const { templateId, name, version, description, author, tags, previewUrl, schemaJson, hintJson } =
     req.body;
 
