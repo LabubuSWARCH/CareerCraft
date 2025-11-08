@@ -39,8 +39,9 @@ export async function registerUser(data: RegisterUserInput): Promise<User> {
 
   const hash = await bcrypt.hash(data.password, 10);
   const validRoles = ['user', 'admin'] as const;
-  const role: UserRole = validRoles.includes((data.role as any)?.toLowerCase())
-  ? (data.role as UserRole)
+  const roleInput = (data.role ?? '').toString().toLowerCase();
+  const role: UserRole = (validRoles as readonly string[]).includes(roleInput)
+  ? (roleInput as UserRole)
   : 'user';
 
   const res = await query(
