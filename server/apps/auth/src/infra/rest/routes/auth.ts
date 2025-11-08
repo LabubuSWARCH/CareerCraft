@@ -21,7 +21,8 @@ const ALLOWED_ROLES = new Set(['admin', 'user']);
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, password, full_name, email, phone, address, profile_picture, role } = req.body;
+    const { username, password, full_name, email, phone, address, profile_picture, role } =
+      req.body;
 
     if (role && !ALLOWED_ROLES.has(role)) {
       return res.status(400).json({ error: 'Invalid role. Allowed values: admin, user' });

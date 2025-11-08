@@ -41,8 +41,8 @@ export async function registerUser(data: RegisterUserInput): Promise<User> {
   const validRoles = ['user', 'admin'] as const;
   const roleInput = (data.role ?? '').toString().toLowerCase();
   const role: UserRole = (validRoles as readonly string[]).includes(roleInput)
-  ? (roleInput as UserRole)
-  : 'user';
+    ? (roleInput as UserRole)
+    : 'user';
 
   const res = await query(
     `INSERT INTO users(username, password, full_name, email, phone, address, profile_picture, role)
