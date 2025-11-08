@@ -67,7 +67,7 @@ router.put('/:templateId', requireAuth, async (req, res) => {
   }
 });
 
-router.delete('/:templateId', requireAuth, async (req, res) => {
+router.delete('/:templateId', requireAuth, requireRole('admin'), async (req, res) => {
   const ok = await deleteTemplate(req.params.templateId);
   if (!ok) return res.status(404).json({ error: 'Template not found' });
   res.status(204).send();
