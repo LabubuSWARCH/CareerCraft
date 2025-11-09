@@ -8,6 +8,7 @@ export const profileSchema = z.object({
   phone: z.string(),
   address: z.string(),
   profile_picture: z.base64().optional(),
+  role: z.enum(["user", "admin"]),
 });
 export type Profile = z.infer<typeof profileSchema>;
 

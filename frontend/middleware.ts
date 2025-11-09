@@ -7,7 +7,12 @@ const AUTH_PATH = [
   "/forgot-password",
   "/reset-password",
 ];
-const PROTECTED_PATH = ["/resumes.*", "/profile.*"];
+const PROTECTED_PATH = [
+  "/resumes.*",
+  "/profile.*",
+  "/templates/new",
+  "/templates/.*/edit",
+];
 
 export function middleware(request: NextRequest) {
   const isAuthPath = AUTH_PATH.some((path) =>

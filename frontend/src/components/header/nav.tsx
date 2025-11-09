@@ -8,6 +8,7 @@ import { useUser } from "@/providers/user-provider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Spinner } from "../ui/spinner";
 import { MobileMenu } from "./mobile-menu";
+import { redirect } from "next/navigation";
 
 export const LINKS = [
   {
@@ -31,6 +32,7 @@ export default function Nav() {
 
   const logout = async () => {
     await logoutMutation.mutateAsync();
+    redirect("/login");
   };
 
   if (profileQuery.isPending) {
