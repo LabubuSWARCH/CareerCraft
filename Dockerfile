@@ -7,6 +7,11 @@ WORKDIR /app
 
 # Install pnpm
 RUN npm install -g pnpm
+# Install buf CLI
+RUN apk add --no-cache curl && \
+    curl -sSL https://github.com/bufbuild/buf/releases/download/v1.59.0/buf-Linux-x86_64 -o /usr/local/bin/buf && \
+    chmod +x /usr/local/bin/buf
+
 
 # Copy the entire monorepo context.
 COPY ./server server
@@ -16,6 +21,9 @@ COPY pnpm-workspace.yaml pnpm-workspace.yaml
 ENV CI=true
 # Install all dependencies recursively based on the lockfile.
 RUN pnpm install --frozen-lockfile
+WORKDIR /app/server
+RUN pnpm install --frozen-lockfile
+WORKDIR /app
 
 # Build all packages in the entire monorepo.
 RUN pnpm -r generate
