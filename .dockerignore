@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Node.js dependencies
+# We want pnpm to install these *inside* the container
+node_modules
+**/node_modules
+
+# Local build artifacts
+# The container must build its own
+dist
+**/dist
+.next
+.output
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# Sensitive environment files
+# NEVER copy these into your image
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor configs
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Docker
+# These are used by the Docker client, not needed in the build context
+Dockerfile
+Dockerfile*
+.dockerignore

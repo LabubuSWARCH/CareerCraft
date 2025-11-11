@@ -1,0 +1,107 @@
+version: '3.9'
+
+services:
+  kong:
+    image: kong/kong-gateway:latest
+    container_name: kong
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /kong/kong.yml
+      KONG_PROXY_LISTEN: '0.0.0.0:8000, 0.0.0.0:8443 ssl, 0.0.0.0:8001 http2'
+      KONG_ADMIN_LISTEN: '127.0.0.1:8001'
+    volumes:
+      - ./kong.yml:/kong/kong.yml:ro
+    ports:
+      - '8000:8000' # proxy (HTTP)
+      - '8443:8443' # proxy (HTTPS)
+      - '8001:8001' # admin API (local only)
+    restart: unless-stopped
+
+  auth:
+    image: my-registry/auth-service:latest
+    environment:
+      NODE_ENV: production
+      REST_PORT: 8080
+      GRPC_PORT: 50051
+      SQL_URL: postgresql://user:pass@postgres:5432/main
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://user:pass@rabbitmq:5672
+      FRONTEND_URL: http://localhost:3000
+      COOKIE_DOMAIN: localhost
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    restart: always
+
+  noti:
+    image: my-registry/noti-service:latest
+    environment:
+      NODE_ENV: production
+      RABBITMQ_URL: amqp://user:pass@rabbitmq:5672
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY:-''}
+      EMAIL_MODE: DEBUG
+      FROM_EMAIL: no-reply@careercraft.com
+    depends_on:
+      - rabbitmq
+    restart: always
+
+  resume:
+    image: my-registry/resume-service:latest
+    environment:
+      NODE_ENV: production
+      REST_PORT: 8082
+      MONGO_URL: mongodb://mongo:27017/careercraft_resumes
+      AUTH_GRPC_URL: auth:50051
+    depends_on:
+      - mongo
+      - auth
+    restart: always
+
+  template:
+    image: my-registry/template-service:latest
+    environment:
+      NODE_ENV: development
+      REST_PORT: 8081
+      MONGO_URL: mongodb://mongo:27017/careercraft_templates
+      AUTH_GRPC_URL: auth:50051
+    depends_on:
+      - mongo
+      - auth
+    restart: always
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: main
+    volumes:
+      - ./.docker/sql/init:/docker-entrypoint-initdb.d
+    restart: always
+
+  redis:
+    image: redis:8
+    container_name: redis
+    restart: always
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: pass
+    restart: always
+
+volumes:
+  mongo_data:
