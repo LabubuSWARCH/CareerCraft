@@ -53,6 +53,7 @@ export function TemplateRenderer({
           width: "793.7007874px",
           height: `${(793.7007874 * 297) / 210}px`,
         }}
+        data-resume-preview
       >
         <header style={schema.layout.header.containerStyle}>
           <h1 style={schema.layout.header.nameStyle}>{data.name}</h1>

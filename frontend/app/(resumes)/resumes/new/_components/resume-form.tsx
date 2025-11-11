@@ -19,10 +19,11 @@ import { Spinner } from "@/components/ui/spinner";
 import { useResumeForm as useNewResumeForm } from "../_providers/resume-form-provider";
 import { useEditResumeForm } from "../../[resumeId]/_providers/edit-resume-form-provider";
 import { SubmitErrorHandler, useFieldArray } from "react-hook-form";
-import { Plus, Trash2, Check, AlertCircle } from "lucide-react";
+import { Plus, Trash2, Check, AlertCircle, Download } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { usePDF } from "react-to-pdf";
 import { ExperienceFields } from "./experience-fields";
 import { EducationFields } from "./education-fields";
 import { ProjectFields } from "./project-fields";
@@ -89,18 +90,24 @@ const createEmptyProject = () => ({
 
 function useResumeFormHook() {
   try {
-    return useNewResumeForm();
+    return { ...useNewResumeForm(), isEditMode: false };
   } catch {
-    return useEditResumeForm();
+    return { ...useEditResumeForm(), isEditMode: true };
   }
 }
 
 export function ResumeForm() {
-  const { form, onSubmit } = useResumeFormHook();
+  const { form, onSubmit, isEditMode } = useResumeFormHook();
   const [activeSection, setActiveSection] = useState<FormSection>("personal");
   const [showWebsite, setShowWebsite] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showPdfSuccess, setShowPdfSuccess] = useState(false);
+  const [showPdfError, setShowPdfError] = useState(false);
+
+  const { toPDF, targetRef } = usePDF({
+    filename: `${form.getValues("resumeTitle") || "resume"}.pdf`,
+  });
 
   const onInvalid: SubmitErrorHandler<ResumeFormData> = (errors) => {
     if (errors.resumeTitle) {
@@ -146,6 +153,33 @@ export function ResumeForm() {
       form.setError("root", {
         message: (error as Error).message,
       });
+    }
+  };
+
+  const handleExportPDF = () => {
+    try {
+      // Find the template preview element
+      const previewElement = document.querySelector("[data-resume-preview]");
+
+      if (!previewElement) {
+        throw new Error("Preview not found");
+      }
+
+      // Temporarily set the targetRef to the preview element
+      (targetRef as any).current = previewElement;
+
+      toPDF();
+      setShowPdfSuccess(true);
+
+      setTimeout(() => {
+        setShowPdfSuccess(false);
+      }, SUCCESS_DISPLAY_TIME * 1000);
+    } catch (error) {
+      setShowPdfError(true);
+
+      setTimeout(() => {
+        setShowPdfError(false);
+      }, ERROR_DISPLAY_TIME * 1000);
     }
   };
 
@@ -614,6 +648,60 @@ export function ResumeForm() {
               </AnimatePresence>
             </Button>
           </motion.div>
+
+          {isEditMode && (
+            <motion.div
+              className="w-full"
+              animate={{
+                scale: showPdfSuccess || showPdfError ? [1, 1.02, 1] : 1,
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              <Button
+                className={cn(
+                  "w-full",
+                  showPdfSuccess && "bg-green-600",
+                  showPdfError && "bg-red-600"
+                )}
+                type="button"
+                size="lg"
+                variant="outline"
+                disabled={showPdfSuccess || showPdfError}
+                onClick={handleExportPDF}
+              >
+                <AnimatePresence mode="wait">
+                  {showPdfSuccess ? (
+                    <motion.div
+                      key="pdf-success"
+                      {...iconTransition}
+                      className="flex items-center gap-2"
+                    >
+                      <Check className="size-5" />
+                      PDF Exported!
+                    </motion.div>
+                  ) : showPdfError ? (
+                    <motion.div
+                      key="pdf-error"
+                      {...iconTransition}
+                      className="flex items-center gap-2"
+                    >
+                      <AlertCircle className="size-5" />
+                      Export Failed!
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="pdf-ready"
+                      {...textTransition}
+                      className="flex items-center gap-2"
+                    >
+                      <Download className="size-4" />
+                      Export to PDF
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Button>
+            </motion.div>
+          )}
         </form>
       </Form>
     </div>
