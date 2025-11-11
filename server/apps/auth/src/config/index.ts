@@ -13,3 +13,4 @@ export const NODE_ENV = process.env.NODE_ENV || 'development';
 
 export const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 export const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://user:pass@localhost:5672';
+export const ADMIN_REGISTRATION_PASSWORD = process.env.ADMIN_REGISTRATION_PASSWORD;
