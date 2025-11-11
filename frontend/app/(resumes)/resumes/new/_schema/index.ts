@@ -24,7 +24,7 @@ export const ResumeProjectFormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, "Project name is required"),
   description: z.string().min(1, "Project description is required"),
-  link: z.url("Invalid URL").optional(),
+  link: z.string().optional(),
 });
 export type ResumeProjectForm = z.infer<typeof ResumeProjectFormSchema>;
 

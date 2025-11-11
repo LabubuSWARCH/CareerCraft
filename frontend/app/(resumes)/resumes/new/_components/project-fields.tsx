@@ -11,10 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Control } from "react-hook-form";
+import { Control, useWatch } from "react-hook-form";
 import { ResumeFormData } from "../_schema";
 import { ArrayFieldItem } from "./array-field-item";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProjectFieldsProps {
   control: Control<ResumeFormData>;
@@ -27,13 +27,21 @@ export function ProjectFields({
   index,
   onRemove,
 }: ProjectFieldsProps) {
+  const link = useWatch({
+    control,
+    name: `projects.${index}.link`,
+  });
+
   const [showLink, setShowLink] = useState(false);
+
+  useEffect(() => {
+    if (link && link.length > 0) {
+      setShowLink(true);
+    }
+  }, []);
 
   const handleLinkToggle = (checked: boolean) => {
     setShowLink(checked);
-    if (!checked) {
-      control._formValues.projects[index].link = "";
-    }
   };
 
   return (
@@ -69,34 +77,39 @@ export function ProjectFields({
         )}
       />
 
-      <div className="flex items-center gap-2">
-        <Switch checked={showLink} onCheckedChange={handleLinkToggle} />
-        <Label
-          className="cursor-pointer"
-          onClick={() => handleLinkToggle(!showLink)}
-        >
-          Add link (Optional)
-        </Label>
-      </div>
+      <FormField
+        control={control}
+        name={`projects.${index}.link`}
+        render={({ field }) => (
+          <>
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={showLink}
+                onCheckedChange={(checked) => handleLinkToggle(checked)}
+              />
+              <Label
+                className="cursor-pointer"
+                onClick={() => handleLinkToggle(!showLink)}
+              >
+                Add link (Optional)
+              </Label>
+            </div>
 
-      {showLink && (
-        <FormField
-          control={control}
-          name={`projects.${index}.link`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Link</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="https://github.com/username/project"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
+            {showLink && (
+              <FormItem>
+                <FormLabel>Link</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="https://github.com/username/project"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          </>
+        )}
+      />
     </ArrayFieldItem>
   );
 }

@@ -15,15 +15,35 @@ import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { useResumeForm as useNewResumeForm } from "../_providers/resume-form-provider";
 import { useEditResumeForm } from "../../[resumeId]/_providers/edit-resume-form-provider";
 import { SubmitErrorHandler, useFieldArray } from "react-hook-form";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Check, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { cn } from "@/lib/utils";
 import { ExperienceFields } from "./experience-fields";
 import { EducationFields } from "./education-fields";
 import { ProjectFields } from "./project-fields";
 import { ResumeFormData } from "../_schema";
+
+const SUCCESS_DISPLAY_TIME = 1;
+const ERROR_DISPLAY_TIME = 1;
+
+const textTransition = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+  transition: { duration: 0.2 },
+};
+
+const iconTransition = {
+  initial: { opacity: 0, scale: 0.5 },
+  animate: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.5 },
+  transition: { duration: 0.3 },
+};
 
 type FormSection =
   | "personal"
@@ -79,6 +99,8 @@ export function ResumeForm() {
   const { form, onSubmit } = useResumeFormHook();
   const [activeSection, setActiveSection] = useState<FormSection>("personal");
   const [showWebsite, setShowWebsite] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const onInvalid: SubmitErrorHandler<ResumeFormData> = (errors) => {
     if (errors.resumeTitle) {
@@ -103,6 +125,27 @@ export function ResumeForm() {
       setActiveSection("projects");
     } else if (errors.skills) {
       setActiveSection("skills");
+    }
+  };
+
+  const handleSubmit = async (data: ResumeFormData) => {
+    try {
+      await onSubmit(data);
+      setShowSuccess(true);
+
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, SUCCESS_DISPLAY_TIME * 1000);
+    } catch (error) {
+      setShowError(true);
+
+      setTimeout(() => {
+        setShowError(false);
+      }, ERROR_DISPLAY_TIME * 1000);
+
+      form.setError("root", {
+        message: (error as Error).message,
+      });
     }
   };
 
@@ -163,9 +206,6 @@ export function ResumeForm() {
 
   const handleWebsiteToggle = (checked: boolean) => {
     setShowWebsite(checked);
-    if (!checked) {
-      form.setValue("website", "");
-    }
   };
 
   const renderPersonalSection = () => (
@@ -378,9 +418,9 @@ export function ResumeForm() {
             control={form.control}
             name="showProjects"
             render={({ field }) => (
-              <FormItem className="flex items-center gap-2">
-                <FormLabel className="!mb-0">Show on resume</FormLabel>
-                <FormControl className="!mb-0">
+              <FormItem className="flex items-center gap-2 space-y-0">
+                <FormLabel className="mb-0">Show on resume</FormLabel>
+                <FormControl>
                   <Switch
                     checked={field.value}
                     onCheckedChange={field.onChange}
@@ -480,7 +520,7 @@ export function ResumeForm() {
     <div className="w-full space-y-6">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+          onSubmit={form.handleSubmit(handleSubmit, onInvalid)}
           className="space-y-6"
         >
           <FormField
@@ -520,11 +560,60 @@ export function ResumeForm() {
             </ButtonGroup>
           </div>
 
-          {renderActiveSection()}
+          <div key={activeSection}>{renderActiveSection()}</div>
 
-          <Button type="submit" size="lg" className="w-full">
-            Save Resume
-          </Button>
+          <motion.div
+            className="w-full"
+            animate={{
+              scale: showSuccess || showError ? [1, 1.02, 1] : 1,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <Button
+              className={cn(
+                "w-full",
+                showSuccess && "bg-green-600",
+                showError && "bg-red-600"
+              )}
+              type="submit"
+              size="lg"
+              disabled={form.formState.isSubmitting || showSuccess || showError}
+            >
+              <AnimatePresence mode="wait">
+                {form.formState.isSubmitting ? (
+                  <motion.div
+                    key="saving"
+                    {...textTransition}
+                    className="flex items-center gap-2"
+                  >
+                    <Spinner /> Saving Resume...
+                  </motion.div>
+                ) : showSuccess ? (
+                  <motion.div
+                    key="success"
+                    {...iconTransition}
+                    className="flex items-center gap-2"
+                  >
+                    <Check className="size-5" />
+                    Resume Saved!
+                  </motion.div>
+                ) : showError ? (
+                  <motion.div
+                    key="error"
+                    {...iconTransition}
+                    className="flex items-center gap-2"
+                  >
+                    <AlertCircle className="size-5" />
+                    Save Failed!
+                  </motion.div>
+                ) : (
+                  <motion.div key="ready" {...textTransition}>
+                    Save Resume
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Button>
+          </motion.div>
         </form>
       </Form>
     </div>

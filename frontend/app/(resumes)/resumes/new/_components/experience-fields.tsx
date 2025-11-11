@@ -11,11 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Control } from "react-hook-form";
+import { Control, useWatch } from "react-hook-form";
 import { ResumeFormData } from "../_schema";
 import { ArrayFieldItem } from "./array-field-item";
 import { DateRangeFields } from "./date-range-fields";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ExperienceFieldsProps {
   control: Control<ResumeFormData>;
@@ -28,13 +28,21 @@ export function ExperienceFields({
   index,
   onRemove,
 }: ExperienceFieldsProps) {
+  const bullets = useWatch({
+    control,
+    name: `experience.${index}.bullets`,
+  });
+
   const [showBullets, setShowBullets] = useState(false);
+
+  useEffect(() => {
+    if (bullets && bullets.length > 0) {
+      setShowBullets(true);
+    }
+  }, []);
 
   const handleBulletsToggle = (checked: boolean) => {
     setShowBullets(checked);
-    if (!checked) {
-      control._formValues.experience[index].bullets = [];
-    }
   };
 
   const convertTextToBullets = (text: string) => text.split("\n");
@@ -77,38 +85,43 @@ export function ExperienceFields({
         endName={`experience.${index}.end`}
       />
 
-      <div className="flex items-center gap-2">
-        <Switch checked={showBullets} onCheckedChange={handleBulletsToggle} />
-        <Label
-          className="cursor-pointer"
-          onClick={() => handleBulletsToggle(!showBullets)}
-        >
-          Add bullet points (Optional)
-        </Label>
-      </div>
+      <FormField
+        control={control}
+        name={`experience.${index}.bullets`}
+        render={({ field }) => (
+          <>
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={showBullets}
+                onCheckedChange={(checked) => handleBulletsToggle(checked)}
+              />
+              <Label
+                className="cursor-pointer"
+                onClick={() => handleBulletsToggle(!showBullets)}
+              >
+                Add bullet points (Optional)
+              </Label>
+            </div>
 
-      {showBullets && (
-        <FormField
-          control={control}
-          name={`experience.${index}.bullets`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bullet Points</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Enter each achievement on a new line"
-                  className="min-h-[100px]"
-                  value={convertBulletsToText(field.value)}
-                  onChange={(e) =>
-                    field.onChange(convertTextToBullets(e.target.value))
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
+            {showBullets && (
+              <FormItem>
+                <FormLabel>Bullet Points</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter each achievement on a new line"
+                    className="min-h-[100px]"
+                    value={convertBulletsToText(field.value)}
+                    onChange={(e) =>
+                      field.onChange(convertTextToBullets(e.target.value))
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          </>
+        )}
+      />
     </ArrayFieldItem>
   );
 }

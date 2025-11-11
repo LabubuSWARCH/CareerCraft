@@ -111,7 +111,6 @@ export function EditResumeFormProvider({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["resumes"] });
       queryClient.invalidateQueries({ queryKey: ["resume", resumeId] });
-      router.push(`/resumes`);
     },
   });
 
