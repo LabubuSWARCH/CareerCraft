@@ -23,7 +23,8 @@ import { Plus, Trash2, Check, AlertCircle, Download } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
-import { usePDF } from "react-to-pdf";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import { ExperienceFields } from "./experience-fields";
 import { EducationFields } from "./education-fields";
 import { ProjectFields } from "./project-fields";
@@ -105,10 +106,6 @@ export function ResumeForm() {
   const [showPdfSuccess, setShowPdfSuccess] = useState(false);
   const [showPdfError, setShowPdfError] = useState(false);
 
-  const { toPDF, targetRef } = usePDF({
-    filename: `${form.getValues("resumeTitle") || "resume"}.pdf`,
-  });
-
   const onInvalid: SubmitErrorHandler<ResumeFormData> = (errors) => {
     if (errors.resumeTitle) {
       return;
@@ -156,25 +153,61 @@ export function ResumeForm() {
     }
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     try {
       // Find the template preview element
-      const previewElement = document.querySelector("[data-resume-preview]");
+      const previewElement = document.querySelector(
+        "[data-resume-preview]"
+      ) as HTMLElement;
 
       if (!previewElement) {
         throw new Error("Preview not found");
       }
 
-      // Temporarily set the targetRef to the preview element
-      (targetRef as any).current = previewElement;
+      // Store the original transform and remove scale temporarily
+      // const originalTransform = previewElement.style.transform;
+      // previewElement.style.transform = "scale(1)";
 
-      toPDF();
+      // Wait a bit for the transform to apply
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Convert the element to canvas
+      const canvas = await html2canvas(previewElement, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: "#ffffff",
+      });
+
+      // Restore the original transform
+      // previewElement.style.transform = originalTransform;
+
+      // Get canvas dimensions
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Create PDF
+      const pdf = new jsPDF({
+        orientation: imgHeight > imgWidth ? "portrait" : "landscape",
+        unit: "mm",
+        format: "a4",
+      });
+
+      // Add image to PDF
+      const imgData = canvas.toDataURL("image/png");
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+      // Download PDF
+      const filename = `${form.getValues("resumeTitle") || "resume"}.pdf`;
+      pdf.save(filename);
+
       setShowPdfSuccess(true);
 
       setTimeout(() => {
         setShowPdfSuccess(false);
       }, SUCCESS_DISPLAY_TIME * 1000);
     } catch (error) {
+      console.error("PDF export failed:", error);
       setShowPdfError(true);
 
       setTimeout(() => {
@@ -182,7 +215,6 @@ export function ResumeForm() {
       }, ERROR_DISPLAY_TIME * 1000);
     }
   };
-
   const {
     fields: experienceFields,
     append: appendExperience,
