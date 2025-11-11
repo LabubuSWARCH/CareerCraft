@@ -8,7 +8,7 @@ import {
   resetPassword,
   updateUserProfile,
 } from '../../../service/auth';
-import { COOKIE_DOMAIN, NODE_ENV } from '../../../config';
+import { COOKIE_DOMAIN, NODE_ENV, ADMIN_REGISTRATION_PASSWORD } from '../../../config';
 
 function getErrorMessage(err: unknown): string {
   if (err instanceof Error) return err.message;
@@ -17,15 +17,40 @@ function getErrorMessage(err: unknown): string {
 
 const router = Router();
 
+type AllowedRole = 'admin' | 'user';
 const ALLOWED_ROLES = new Set(['admin', 'user']);
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, password, full_name, email, phone, address, profile_picture, role } =
-      req.body;
+    const {
+      username,
+      password,
+      full_name,
+      email,
+      phone,
+      address,
+      profile_picture,
+      role,
+      admin_password,
+    } = req.body;
 
-    if (role && !ALLOWED_ROLES.has(role)) {
+    const normalizedRole = typeof role === 'string' ? role.toLowerCase() : undefined;
+
+    if (normalizedRole && !ALLOWED_ROLES.has(normalizedRole)) {
       return res.status(400).json({ error: 'Invalid role. Allowed values: admin, user' });
+    }
+
+    const roleForRegistration = normalizedRole as AllowedRole | undefined;
+
+    if (roleForRegistration === 'admin') {
+      if (!ADMIN_REGISTRATION_PASSWORD) {
+        console.error('ADMIN_REGISTRATION_PASSWORD is not configured');
+        return res.status(500).json({ error: 'Admin registration is currently unavailable' });
+      }
+
+      if (admin_password !== ADMIN_REGISTRATION_PASSWORD) {
+        return res.status(403).json({ error: 'Invalid admin password' });
+      }
     }
 
     const user = await registerUser({
@@ -36,7 +61,7 @@ router.post('/register', async (req, res) => {
       phone,
       address,
       profile_picture,
-      role,
+      role: roleForRegistration,
     });
 
     res.status(201).json(user);
