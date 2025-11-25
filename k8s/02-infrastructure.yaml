@@ -35,10 +35,19 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/lib/postgresql/data
+        # --- ADD THIS MOUNT ---
+        - name: init-script-vol
+          mountPath: /docker-entrypoint-initdb.d
+        # ----------------------
       volumes:
       - name: data
         persistentVolumeClaim:
           claimName: postgres-pvc
+      # --- ADD THIS VOLUME ---
+      - name: init-script-vol
+        configMap:
+          name: postgres-init-script
+      # -----------------------
 ---
 apiVersion: v1
 kind: Service

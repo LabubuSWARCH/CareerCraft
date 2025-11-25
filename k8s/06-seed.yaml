@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: template-seeder
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      containers:
+      - name: seeder
+        image: xappyy/template-service:latest
+        command: ["node", "dist/src/scripts/seed-templates.js"] 
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: MONGO_URL
+          value: "mongodb://mongo:27017/careercraft_templates"
+      restartPolicy: OnFailure

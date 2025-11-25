@@ -20,13 +20,6 @@ npm-debug.log*
 pnpm-debug.log*
 yarn-error.log*
 
-# Sensitive environment files
-# NEVER copy these into your image
-.env
-.env.*
-!.env.example
-!.env.sample
-
 # OS-specific files
 .DS_Store
 Thumbs.db
