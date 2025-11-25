@@ -23,11 +23,11 @@ spec:
         # This will be used by the Browser AND the Server (SSR).
         # -------------------------------------------------------------
         - name: NEXT_PUBLIC_AUTH_API_URL
-          value: "http://YOUR_NODE_IP/gw/api/auth"
+          value: "http://192.168.49.2/gw/api"
         - name: NEXT_PUBLIC_TEMPLATE_API
-          value: "http://YOUR_NODE_IP/gw/api/template"
+          value: "http://192.168.49.2/gw/api"
         - name: NEXT_PUBLIC_RESUME_API_URL
-          value: "http://YOUR_NODE_IP/gw/api/resume"
+          value: "http://192.168.49.2/gw/api"
 ---
 apiVersion: v1
 kind: Service
