@@ -1,0 +1,50 @@
+# === Stage 1: Builder ===
+FROM node:20-alpine AS builder
+WORKDIR /app
+RUN npm install -g pnpm
+
+# Copy only necessary files for install
+COPY ./frontend frontend
+COPY ./shared shared
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+
+# Install dependencies
+ENV CI=true
+RUN pnpm install --frozen-lockfile
+
+# Build Next.js
+WORKDIR /app/frontend
+# Ensure next.config.js has output: 'standalone'
+RUN pnpm build 
+
+# === Stage 2: Final Image ===
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# --- FIX: Account for Monorepo Nesting ---
+
+# 1. Copy public folder to the nested location
+# Next.js expects 'public' relative to the server.js file
+COPY --from=builder /app/frontend/public ./frontend/public
+
+# 2. Copy the standalone folder
+# In a monorepo, this folder contains 'node_modules' AND a 'frontend' directory
+COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/standalone ./
+
+# 3. Copy static assets to the nested location
+# These must go exactly where .next/server expects them
+COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/static ./frontend/.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+# --- FIX: Point to the nested server.js ---
+CMD ["node", "frontend/server.js"]
