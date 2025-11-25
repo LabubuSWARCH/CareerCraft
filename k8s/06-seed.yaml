@@ -9,7 +9,24 @@ spec:
       containers:
       - name: seeder
         image: xappyy/template-service:latest
-        command: ["node", "dist/src/scripts/seed-templates.js"] 
+        # -------------------------------------------------------------------
+        # THE FIX:
+        # 1. We switch to using a shell (/bin/sh) so we can run multiple commands.
+        # 2. We verify where we are (pwd).
+        # 3. We create a symlink: 
+        #    Real location: $(pwd)/templates
+        #    Expected location: dist/server/apps/template/templates
+        # 4. We run the node script.
+        # -------------------------------------------------------------------
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "Creating symlink for templates..."
+            ln -sf $(pwd)/templates dist/server/apps/template/templates
+            
+            echo "Running seed script..."
+            node dist/server/apps/template/src/scripts/seed-templates.js
+        
         env:
         - name: NODE_ENV
           value: "production"
