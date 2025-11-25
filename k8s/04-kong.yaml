@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kong
+  template:
+    metadata:
+      labels:
+        app: kong
+    spec:
+      containers:
+      - name: kong
+        image: kong/kong-gateway:latest
+        env:
+        - name: KONG_DATABASE
+          value: "off"
+        - name: KONG_DECLARATIVE_CONFIG
+          value: "/kong/declarative/kong.yml"
+        - name: KONG_PROXY_LISTEN
+          value: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
+        ports:
+        # ---------------------------------------------------
+        # HOST PORT 80: LISTENS ON YOUR NODE IP directly
+        # ---------------------------------------------------
+        - containerPort: 8000
+          hostPort: 80
+          name: proxy
+        volumeMounts:
+        - name: kong-config-vol
+          mountPath: /kong/declarative
+      volumes:
+      - name: kong-config-vol
+        configMap:
+          name: kong-declarative-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-proxy
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8000
+    name: http
+  selector:
+    app: kong

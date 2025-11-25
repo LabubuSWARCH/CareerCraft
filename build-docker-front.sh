@@ -5,7 +5,7 @@ set -e
 
 # --- Configuration ---
 # Your Docker registry prefix (or just your username)
-REGISTRY="my-registry"
+REGISTRY="xappyy"
 
 # The tag to apply to all images
 TAG="latest"

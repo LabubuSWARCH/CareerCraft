@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: xappyy/frontend-service:latest
+        ports:
+        - containerPort: 3000
+        env:
+        # -------------------------------------------------------------
+        # REPLACE 'YOUR_NODE_IP' WITH YOUR ACTUAL IP (e.g. 192.168.1.50)
+        # This will be used by the Browser AND the Server (SSR).
+        # -------------------------------------------------------------
+        - name: NEXT_PUBLIC_AUTH_API_URL
+          value: "http://YOUR_NODE_IP/gw/api/auth"
+        - name: NEXT_PUBLIC_TEMPLATE_API
+          value: "http://YOUR_NODE_IP/gw/api/template"
+        - name: NEXT_PUBLIC_RESUME_API_URL
+          value: "http://YOUR_NODE_IP/gw/api/resume"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: frontend

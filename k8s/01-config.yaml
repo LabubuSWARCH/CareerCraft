@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-declarative-config
+data:
+  kong.yml: |
+    _format_version: '3.0'
+    _transform: true
+    plugins:
+      - name: cors
+        config:
+          origins: ['*'] 
+          methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+          headers: [Accept, Authorization, Content-Type, Origin]
+          credentials: true
+
+    services:
+      # --- FRONTEND ---
+      - name: frontend-service
+        url: http://frontend:3000
+        routes:
+          - name: frontend-route
+            paths: ["/"]
+            strip_path: false
+
+      # --- BACKEND APIS ---
+      
+      # 1. Auth Service
+      - name: auth-rest
+        url: http://auth:8080/auth
+        routes:
+          - name: auth-route
+            paths: ["/gw/api/auth"]
+            strip_path: true
+
+      # 2. Template Service
+      # REQUEST: /gw/api/template (Singular) -> Removes /gw/api/template
+      # UPSTREAM: http://template:8081/templates (Plural) -> Adds /templates
+      # RESULT: http://template:8081/templates
+      - name: template-service
+        url: http://template:8081/templates 
+        routes:
+          - name: template-route
+            paths: ["/gw/api/template"]
+            strip_path: true
+
+      # 3. Resume Service (Assuming this follows the same plural pattern)
+      - name: resume-service
+        url: http://resume:8082/resumes
+        routes:
+          - name: resume-route
+            paths: ["/gw/api/resume"]
+            strip_path: true
