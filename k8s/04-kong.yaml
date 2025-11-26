@@ -23,11 +23,7 @@ spec:
         - name: KONG_PROXY_LISTEN
           value: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
         ports:
-        # ---------------------------------------------------
-        # HOST PORT 80: LISTENS ON YOUR NODE IP directly
-        # ---------------------------------------------------
         - containerPort: 8000
-          hostPort: 80
           name: proxy
         volumeMounts:
         - name: kong-config-vol
@@ -42,7 +38,7 @@ kind: Service
 metadata:
   name: kong-proxy
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8000

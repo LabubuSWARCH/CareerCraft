@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: xappyy/auth-service:latest
+          image: petchluvsyou/auth-service:latest
           env:
             - name: NODE_ENV
               value: "production"
@@ -28,7 +28,7 @@ spec:
             - name: COOKIE_DOMAIN
               value: ""
             - name: FRONTEND_URL
-              value: "http://192.168.0.199"
+              value: "http://192.168.0.210"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
         - name: template
-          image: xappyy/template-service:latest
+          image: petchluvsyou/template-service:latest
           env:
             - name: NODE_ENV
               value: "development"
@@ -71,7 +71,7 @@ spec:
     spec:
       containers:
         - name: resume
-          image: xappyy/resume-service:latest
+          image: petchluvsyou/resume-service:latest
           env:
             - name: NODE_ENV
               value: "production"
@@ -96,7 +96,7 @@ spec:
     spec:
       containers:
         - name: noti
-          image: xappyy/noti-service:latest
+          image: petchluvsyou/noti-service:latest
           env:
             - name: RABBITMQ_URL
               value: "amqp://user:pass@rabbitmq:5672"

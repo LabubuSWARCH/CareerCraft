@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
       - name: seeder
-        image: xappyy/template-service:latest
+        image: petchluvsyou/template-service:latest
         # -------------------------------------------------------------------
         # THE FIX:
         # 1. We switch to using a shell (/bin/sh) so we can run multiple commands.

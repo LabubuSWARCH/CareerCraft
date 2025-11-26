@@ -1,0 +1,17 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: static-kong-ip
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.0.210/32 # <--- The /32 locks this pool to exactly ONE IP
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advert
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - static-kong-ip
