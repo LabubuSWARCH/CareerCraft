@@ -28,7 +28,7 @@ spec:
             - name: COOKIE_DOMAIN
               value: ""
             - name: FRONTEND_URL
-              value: "http://YOUR_NODE_IP_HERE"
+              value: "http://192.168.0.199"
 ---
 apiVersion: apps/v1
 kind: Deployment
